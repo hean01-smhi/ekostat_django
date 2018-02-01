@@ -1,31 +1,12 @@
-* {
+html {
 	box-sizing: border-box;
 }
 
-article,
-aside,
-details,
-dialog,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-main,
-menu,
-nav,
-section {
-	display: block;
-}
-
-html {
-	margin: 0;
-	padding: 0;
+*, *::before, *::after {
+	box-sizing: inherit;
 }
 
 body {
-	margin: 0;
-	padding: 0;
 	font-size: 14px;
 	font-family: sans-serif;
 	background: #f1f1f1;
@@ -39,7 +20,6 @@ h4,
 h5,
 h6 {
 	margin: 0 0 16px;
-	padding: 0;
 	font-size: 16px;
 	font-weight: normal;
 	line-height: 1;
@@ -64,24 +44,19 @@ h4 {
 
 p {
 	margin: 0 0 16px;
-	padding: 0;
 	line-height: 1.5;
 }
 
 dl {
 	margin: 0 0 16px;
-	padding: 0;
 }
 
 dt {
-	margin: 0;
-	padding: 0;
 	font-weight: bold;
 }
 
 dd {
 	margin: 0 0 16px;
-	padding: 0;
 }
 
 ol {
@@ -96,12 +71,6 @@ ul {
 	padding: 0 0 0 32px;
 	list-style: disc;
 	line-height: 1.4;
-}
-
-ol li,
-ul li {
-	margin: 0;
-	padding: 0;
 }
 
 ul ul,
@@ -133,11 +102,6 @@ td {
 }
 
 
-form {
-	margin: 0;
-	padding: 0;
-}
-
 fieldset {
 	margin: 0 0 16px;
 	padding: 16px 0 0;
@@ -163,10 +127,6 @@ a {
 
 a:hover {
 
-}
-
-a img {
-	border: none;
 }
 
 b,
