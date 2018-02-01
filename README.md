@@ -11,6 +11,15 @@ Web application for the EKOSTAT-calculator.
 - Launch the development server: python manage.py runserver
 - Web address: localhost:8000
 
+### Django apps
+
+The project contains the following applications:
+
+- **accounts** for user management.
+- **reports** for generating report data.
+- **subsets** for management of subsets.
+- **workspaces** for managament of workspaces.
+
 ### EKOSTAT Calculator
 
 The lib ekostat_calc should contain all software needed to run the calculator and 
