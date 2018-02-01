@@ -3,9 +3,11 @@ Web application for the EKOSTAT-calculator.
 
 ### How to run Django, short intro
 
-- Install Django: pip install django
 - Clone ekostat_django: git clone https://github.com/ekostat/ekostat_django.git
-- Change directory: cd ekostat_django/ekostat_django
+- Create a new virtual enivornment: virtualenv -p python3 ~/.virtualenvs/ekostat
+- Activate the virtual environment: source ~/.virtualenvs/ekostat/bin/activate
+- Change directory: cd ekostat_django/
+- Install dependencies: pip install -r requirements.txt
 - Launch the development server: python manage.py runserver
 - Web address: localhost:8000
 
