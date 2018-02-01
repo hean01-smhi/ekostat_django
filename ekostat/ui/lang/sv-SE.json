@@ -1,0 +1,16 @@
+{
+	"about.heading": "Om",
+	"about.text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+	"navigation.item_about": "Om",
+	"navigation.item_workspace": "Workspace",
+	"navigation.item_preferences": "Inställningar",
+	"demo_dialog.text": "Den här applikation är under utveckling och används för närvanade endast som demo.",
+	"error.not_found_heading": "Kunde inte hittas",
+	"preferences.heading": "Inställingar",
+	"preferences.label_language": "Språk",
+	"preferences.legend_user_account": "Konto",
+	"report.heading": "Rapport",
+	"subset.button_view_report": "Visa rapport",
+	"workspace.button_new_subset": "Skapa nytt subset",
+	"workspace.button_view_report": "Visa rapport"
+}

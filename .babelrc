@@ -1,0 +1,8 @@
+{
+	"presets": ["env", "react"],
+	"plugins": [
+		["react-intl", {
+			"messagesDir": "./ekostat/ui/tmp/messages/"
+		}]
+	]
+}

@@ -1,0 +1,16 @@
+{
+	"about.heading": "About",
+	"about.text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+	"navigation.item_about": "About",
+	"navigation.item_workspace": "Workspace",
+	"navigation.item_preferences": "Preferences",
+	"demo_dialog.text": "This application is under development and is currently only intended for demo purposes.",
+	"error.not_found_heading": "Not found",
+	"preferences.heading": "Preferences",
+	"preferences.label_language": "Language",
+	"preferences.legend_user_account": "Account",
+	"report.heading": "Report",
+	"subset.button_view_report": "View report",
+	"workspace.button_new_subset": "Create new subset",
+	"workspace.button_view_report": "View report"
+}
