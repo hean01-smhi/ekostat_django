@@ -1,6 +1,9 @@
-from django.http import JsonResponse
+import json
 
-# Create your views here.
+from django.http import JsonResponse
+from django.views.decorators.http import require_GET, require_POST
+
+@require_GET
 def index(request, workspace):
 	if workspace != "my_workspace_1":
 		return JsonResponse({"error_message": "Could not find workspace"},status=404)
@@ -104,3 +107,13 @@ def index(request, workspace):
 			}
 		]
 	})
+
+@require_POST
+def edit(request, workspace):
+	if workspace != "my_workspace_1":
+		return JsonResponse({"error_message": "Invalid workspace."},status=404)
+
+	try:
+		return JsonResponse(json.loads(request.body.decode('utf-8')))
+	except ValueError as e:
+		return JsonResponse({"error_message": "Could not parse JSON."},status=400)

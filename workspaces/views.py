@@ -1,6 +1,9 @@
-from django.http import JsonResponse
+import json
 
-# Create your views here.
+from django.http import JsonResponse
+from django.views.decorators.http import require_GET, require_POST
+
+@require_GET
 def index(request):
 	return JsonResponse({
 		"workspaces": [
@@ -22,3 +25,11 @@ def index(request):
 			}
 		]
 	})
+
+@require_POST
+def add(request):
+	try:
+		new_workspace = json.loads(request.body.decode('utf-8'))
+		return JsonResponse({"workspaces": [new_workspace]})
+	except ValueError as e:
+		return JsonResponse({"error_message": "Could not parse JSON."},status=400)
