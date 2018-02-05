@@ -1,14 +1,17 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const rootPath = path.resolve(__dirname, 'ekostat/ui');
+const buildPath = path.resolve(rootPath, 'tmp');
+
 module.exports = {
 	entry: {
-		app: './ekostat/ui/index.js'
+		app: path.resolve(rootPath, 'index.js')
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
 			title: 'Vattenstatus',
-			template: path.resolve(__dirname, 'ekostat/ui/index.html'),
+			template: path.resolve(rootPath, 'index.html'),
 			minify: {
 				removeScriptTypeAttributes: true,
 				removeStyleLinkTypeAttributes: true
@@ -18,7 +21,7 @@ module.exports = {
 	],
 	output: {
 		filename: 'scripts/[name].js',
-		path: path.resolve(__dirname, 'ekostat/ui/tmp/static'),
+		path: path.resolve(buildPath, 'static'),
 		publicPath: '/static/'
 	},
 	module: {
