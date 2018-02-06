@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
 const Report = () => (
-	<section className="panel">
+	<section>
 		<p>
 			<Link to="/workspace">&laquo; Back to workspace</Link>
 		</p>

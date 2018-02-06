@@ -123,10 +123,13 @@ label {
 
 a {
 	text-decoration: none;
+	color: #288CD2;
+	color: #0082D2;
 }
 
 a:hover {
-
+	text-decoration: underline;
+	color: #0050A0;
 }
 
 b,
@@ -138,7 +141,6 @@ i,
 em {
 	font-style: italic;
 }
-
 
 
 .navigation {
@@ -244,12 +246,11 @@ em {
 }
 
 
-
-.workspaces h1 {
+.workspace > header h1 {
 	display: none;
 }
 
-.workspaces .user-badge {
+.workspace > header .user-badge {
 	display: inline-block;
 	font-style: normal;
 	font-weight: normal;
@@ -260,38 +261,38 @@ em {
 	border-radius: 50px;
 }
 
-.workspaces .user-name {
+.workspace > header .user-name {
 	display: block;
 	font-size: 10px;
 }
 
-.workspaces .user {
+.workspace > header .user {
 	text-align: center;
 }
 
-.workspaces select {
+.workspace > header select {
 	width: 100%;
 }
 
 @media(min-width: 576px) {
-	.workspaces {
+	.workspace > header {
 		text-align: center;
 	}
 
-	.workspaces select {
+	.workspace > header select {
 		display: inline-block;
 		width: auto;
 	}
 }
 
 @media(min-width: 768px) {
-	.workspaces {
+	.workspace > header {
 		margin-bottom: 16px;
 		padding-bottom: 6px;
 		border-bottom: 1px solid #ccc;
 	}
 
-	.workspaces h1 {
+	.workspace > header h1 {
 		display: block;
 		float: left;
 		margin: 25px 0 0;
@@ -299,18 +300,18 @@ em {
 		border: none;
 	}
 
-	.workspaces .user {
+	.workspace > header .user {
 		float: right;
 		margin-top: 16px;
 	}
 
-	.workspaces select {
+	.workspace > header select {
 		float: right;
 		margin-top: 30px;
 		margin-right: 25px;
 	}
 
-	.workspaces:after {
+	.workspace > header:after {
 		content: ".";
 		display: block;
 		height: 0;
@@ -319,40 +320,86 @@ em {
 	}
 }
 
-.subsets {
+.workspace-subsets {
 	margin: 0 0 16px;
 }
 
 .subset {
-	color: #444;
 	position: relative;
 	margin: 16px 0;
 	padding: 16px;
+	height: 250px;
+	overflow: hidden;
 	border-radius: 4px;
+	color: #444;
 	background: #fff;
 	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
+	cursor: pointer;
 }
 
-.subset-action-report {
-	font-size: 12px;
+.subset:after {
+	content: " ";
+	display: block;
 	position: absolute;
-	bottom: 0;
-	z-index: 20000;
-	border: none;
-	background: #fff;
-	margin: 0;
-	padding: 0;
+	top: 32px;
 	left: 0;
 	right: 0;
+	bottom: 32px;
+	background: linear-gradient(transparent, #fff);
+}
+
+.subset-new {
+	height: auto;
+	background: none;
+	box-shadow: none;
+}
+
+.subset-new:after {
+	display: none;
+}
+
+.subset-new > button {
+	display: block;
 	width: 100%;
-	padding: 10px;
-	text-align: center;
+	height: 80px;
+	border: none;
+	background: none;
+	font-size: 12px;
 	cursor: pointer;
+}
+
+.subset-new > button i {
+	display: block;
+	margin: 0 0 8px;
+	font-style: normal;
+	font-size: 32px;
 }
 
 .subset h2 {
 	font-size: 12px;
 	text-align: center;
+}
+
+.subset-edit {
+	position: absolute;
+	top: 8px;
+	right: 5px;
+	border: none;
+	background: none;
+	cursor: pointer;
+}
+
+.subset-edit span {
+	display: none;
+}
+
+.icon-edit {
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	width: 12px;
+	height: 13px;
+	background: url(images/icon-edit.svg) no-repeat center center;
 }
 
 .subset .subset-selections {
@@ -377,77 +424,20 @@ em {
 	margin: 5px 0 0;
 }
 
-.subset a.subset-action-none {
-	display: block;
-	height: 220px;
-	overflow: hidden;
-	cursor: pointer;
-}
-
-.subset a.subset-action-none:after {
-	content: " ";
-	display: block;
+.subset-report {
+	font-size: 12px;
 	position: absolute;
-	top: 16px;
-	left: 0;
-	right: 0;
-	bottom: 32px;
 	bottom: 0;
-	z-index: 10000;
-	background: linear-gradient(transparent, #fff);
-}
-
-.subset-disabled:after {
-	content: " ";
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background: rgba(255, 255, 255, 0.75);
-}
-
-.subset-action-edit {
-	position: absolute;
-	top: 8px;
-	right: 5px;
 	border: none;
-	background: none;
-}
-
-.subset-action-edit span {
-	display: none;
-}
-
-.icon-edit {
+	background: #fff;
 	margin: 0;
 	padding: 0;
-	display: inline-block;
-	width: 12px;
-	height: 13px;
-	background: url(images/icon-edit.svg) no-repeat center center;
-}
-
-.subset-new {
-	background: none;
-	box-shadow: none;
-}
-
-.subset-action-new {
-	display: block;
+	left: 0;
+	right: 0;
 	width: 100%;
-	height: 80px;
-	border: none;
-	background: none;
-	font-size: 12px;
+	padding: 10px;
+	text-align: center;
 	cursor: pointer;
-}
-
-.subset-action-new i {
-	display: block;
-	margin: 0 0 8px;
-	font-style: normal;
-	font-size: 32px;
 }
 
 @media(min-width: 576px) {
@@ -462,11 +452,11 @@ em {
 		box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
 	}
 
-	.subset-action-new {
+	.subset-new > button {
 		height: 220px;
 	}
 
-	.subsets:after {
+	.workspace-subsets:after {
 		content: " ";
 		display: block;
 		height: 0;
@@ -490,21 +480,66 @@ em {
 }
 
 
-.subset-panel .actions {
+.workspace .actions {
 	text-align: center;
 }
 
-.subset-panel .actions button {
+.workspace .actions button {
 	width: 100%;
 }
 
 @media(min-width: 576px) {
-	.subset-panel .actions {
+	.workspace .actions {
 		text-align: right;
 	}
 
-	.subset-panel .actions button {
+	.workspace .actions button {
 		width: auto;
+	}
+}
+
+
+.editable-subset .subset-selections {
+	margin: 32px 0;
+}
+
+.editable-subset .subset-selections h3 {
+	margin: 0 0 32px;
+	font-size: 16px;
+}
+
+.editable-subset .subset-selections legend {
+	font-weight: bold;
+}
+
+.editable-subset .subset-selections ul {
+	padding: 0;
+	list-style: none;
+}
+
+.editable-subset .subset-selections li {
+	margin: 8px 0;
+}
+
+.editable-subset .subset-selections label {
+	display: block;
+	padding: 4px 0;
+}
+
+.editable-subset .subset-selections select {
+	width: 100%;
+}
+
+.editable-subset .subset-selections input {
+	margin: 0 5px 0 0;
+}
+
+@media(min-width: 768px) {
+	.editable-subset .subset-selections {
+		margin: 0;
+		padding: 10px 22px;
+		float: left;
+		width: 33%;
 	}
 }
 
@@ -534,4 +569,69 @@ em {
 	border: none;
 	background: none;
 	cursor: pointer;
+}
+
+
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.75);
+}
+
+.modal {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #ffffff;
+}
+
+.modal-header {
+	position: absolute;
+	top: 0;
+	left: 8px;
+	right: 8px;
+	height: 60px;
+	padding: 20px 8px;
+	background: rgba(255, 255, 255, 0.95);
+	z-index: 2000;
+}
+
+.modal-body {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: auto;
+	padding: 60px 20px 20px;
+}
+
+.modal-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: 22px;
+	padding: 10px;
+	margin: 0;
+	border: none;
+	background: none;
+	cursor: pointer;
+}
+
+.ReactModal__Body--open {
+	overflow: hidden;
+}
+
+@media(min-width: 576px) {
+	.modal {
+		top: 40px;
+		left: 40px;
+		right: 40px;
+		bottom: 40px;
+	}
 }

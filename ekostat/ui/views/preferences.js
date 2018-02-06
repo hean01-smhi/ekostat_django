@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 const Preferences = withRouter(({history}) => {
 	const match = matchPath(history.location.pathname, {path: '/:lang/'});
 	return(
-		<section className="panel">
+		<section>
 			<h1>
 				<FormattedMessage id="preferences.heading" defaultMessage="Preferences" />
 			</h1>

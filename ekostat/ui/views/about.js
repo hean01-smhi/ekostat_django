@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 const About = () => (
-	<section className="panel">
+	<section>
 		<h1>
 			<FormattedMessage id="about.heading" defaultMessage="About" />
 		</h1>
