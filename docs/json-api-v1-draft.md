@@ -12,8 +12,9 @@ Response:
 {
 	"workspaces": [
 		{
-			"label": "My Workspace",
-			"value": "my_workspace"
+			"alias": "My Workspace",
+			"uid": "my_workspace",
+			"status": "editable"
 		}
 	]
 }
@@ -23,31 +24,53 @@ Request:
 ```
 POST /api/workspaces/add
 
-{"label": "My New Workspace"}
+{"alias": "My New Workspace", "source": "uuid"}
 ```
 
 Response:
 ```
 {
-	"workspaces": [
-		{
-			"label": "My New Workspace",
-			"value": "my_new_workspace"
-		},
-		{
-			"label": "My Workspace",
-			"value": "my_workspace"
-		}
-	]
+	"alias": "My Workspace",
+	"uid": "my_workspace",
+	"status": "editable"
 }
+```
 
+Request:
+```
+POST /api/workspaces/edit/<workspace_uid>
+
+{"alias": "New Name", "uuid": "..."}
+```
+
+Response:
+```
+{
+	"alias": "New Name",
+	"uid": "..."
+}
+```
+
+Request:
+```
+POST /api/workspaces/delete/<workspace_uid>
+
+{"uid": "..."}
+```
+
+Response:
+```
+{
+	"alias": "My Workspace",
+	"uid": "..."
+}
 ```
 
 ## Subsets
 
 Request:
 ```
-GET /api/subsets/my_workspace
+GET /api/subsets/<workspace_uid>
 ```
 
 Response:
@@ -55,23 +78,24 @@ Response:
 {
 	"workspace": {
 		"alias": "My Workspace",
-		"name": "my_workspace"
+		"uid": "...",
+		"status": "editable"
 	},
 	"subsets": [
 		{
 			"alias": "My Subset 1",
-			"name": "my_subset_1",
+			"uuid": "...",
 			"active": true,
 			"periods": [
 				{
 					"label": "2006-2012",
-					"selectable": true,
+					"status": "selectable",
 					"selected": true,
 					"value": "2006-2012"
 				},
 				{
 					"label": "2012-2017",
-					"selectable": true,
+					"status": "selectable",
 					"selected": false,
 					"value": "2012-2017"
 				}
@@ -79,25 +103,25 @@ Response:
 			"water_bodies": [
 				{
 					"label": "WB 1",
-					"selectable": true,
+					"status": "selectable",
 					"selected": true,
 					"value": "WB 1"
 				},
 				{
 					"label": "WB 2",
-					"selectable": true,
+					"status": "selectable",
 					"selected": true,
 					"value": "WB 2"
 				},
 				{
 					"label": "WB 3",
-					"selectable": true,
+					"status": "selectable",
 					"selected": false,
 					"value": "WB 3"
 				},
 				{
 					"label": "WB 4",
-					"selectable": true,
+					"status": "selectable",
 					"selected": true,
 					"value": "WB 4"
 				}
@@ -105,13 +129,13 @@ Response:
 			"water_districts": [
 				{
 					"label": "Bottenhavet",
-					"selectable": true,
+					"status": "selectable",
 					"selected": true,
 					"value": "Bottenhavet"
 				},
 				{
 					"label": "Skagerakk",
-					"selectable": true,
+					"status": "selectable",
 					"selected": false,
 					"value": "Skagerakk"
 				}
@@ -122,7 +146,7 @@ Response:
 					"children": [
 						{
 							"label": "Secchi - default",
-							"selectable": true,
+							"status": "selectable",
 							"selected": false,
 							"value": "Secchi - default"
 						}
@@ -135,13 +159,13 @@ Response:
 					"children": [
 						{
 							"label": "Chlorophyll - default",
-							"selectable": true,
+							"status": "selectable",
 							"selected": true,
 							"value": "Chlorophyll - default"
 						},
 						{
 							"label": "Biovolume - default",
-							"selectable": true,
+							"status": "selectable",
 							"selected": true,
 							"value": "Biovolume - default"
 						}
@@ -155,33 +179,199 @@ Response:
 
 Request:
 ```
-POST /api/subsets/my_workspace/edit
+POST /api/subsets/<workspace_uid>/create
 
+{"alias": "New subset", source: "..."}
+```
+
+Response:
+```
 {
-	"workspace": {
-		"alias": "My Workspace",
-		"name": "my_workspace"
-	},
-	"subsets": [
+	"alias": "My Subset 1",
+	"uuid": "...",
+	"active": true,
+	"periods": [
 		{
-			"alias": "My New Subset",
-			"name": "my_new_subset",
-			"active": true,
-			"periods": [],
-			"water_bodies": [],
-			"water_districts": [],
-			"supporting_elements": [],
-			"quality_elements": []
+			"label": "2006-2012",
+			"status": "selectable",
+			"selected": true,
+			"value": "2006-2012"
 		},
 		{
-			"alias": "My Subset 1",
-			"name": "my_subset_1",
-			"active": true,
-			"periods": [],
-			"water_bodies": [],
-			"water_districts": [],
-			"supporting_elements": [],
-			"quality_elements": []
+			"label": "2012-2017",
+			"status": "selectable",
+			"selected": false,
+			"value": "2012-2017"
+		}
+	],
+	"water_bodies": [
+		{
+			"label": "WB 1",
+			"status": "selectable",
+			"selected": true,
+			"value": "WB 1"
+		},
+		{
+			"label": "WB 2",
+			"status": "selectable",
+			"selected": true,
+			"value": "WB 2"
+		},
+		{
+			"label": "WB 3",
+			"status": "selectable",
+			"selected": false,
+			"value": "WB 3"
+		},
+		{
+			"label": "WB 4",
+			"status": "selectable",
+			"selected": true,
+			"value": "WB 4"
+		}
+	],
+	"water_districts": [
+		{
+			"label": "Bottenhavet",
+			"status": "selectable",
+			"selected": true,
+			"value": "Bottenhavet"
+		},
+		{
+			"label": "Skagerakk",
+			"status": "selectable",
+			"selected": false,
+			"value": "Skagerakk"
+		}
+	],
+	"supporting_elements": [
+		{
+			"label": "Secchi",
+			"children": [
+				{
+					"label": "Secchi - default",
+					"status": "selectable",
+					"selected": false,
+					"value": "Secchi - default"
+				}
+			]
+		}
+	],
+	"quality_elements": [
+		{
+			"label": "Phytoplankton",
+			"children": [
+				{
+					"label": "Chlorophyll - default",
+					"status": "selectable",
+					"selected": true,
+					"value": "Chlorophyll - default"
+				},
+				{
+					"label": "Biovolume - default",
+					"status": "selectable",
+					"selected": true,
+					"value": "Biovolume - default"
+				}
+			]
+		}
+	]
+}
+```
+
+
+
+Request:
+```
+POST /api/subsets/edit/<subset_uid>
+{
+	"alias": "My Subset 1",
+	"uuid": "...",
+	"active": true,
+	"periods": [
+		{
+			"label": "2006-2012",
+			"status": "selectable",
+			"selected": true,
+			"value": "2006-2012"
+		},
+		{
+			"label": "2012-2017",
+			"status": "selectable",
+			"selected": false,
+			"value": "2012-2017"
+		}
+	],
+	"water_bodies": [
+		{
+			"label": "WB 1",
+			"status": "selectable",
+			"selected": true,
+			"value": "WB 1"
+		},
+		{
+			"label": "WB 2",
+			"status": "selectable",
+			"selected": true,
+			"value": "WB 2"
+		},
+		{
+			"label": "WB 3",
+			"status": "selectable",
+			"selected": false,
+			"value": "WB 3"
+		},
+		{
+			"label": "WB 4",
+			"status": "selectable",
+			"selected": true,
+			"value": "WB 4"
+		}
+	],
+	"water_districts": [
+		{
+			"label": "Bottenhavet",
+			"status": "selectable",
+			"selected": true,
+			"value": "Bottenhavet"
+		},
+		{
+			"label": "Skagerakk",
+			"status": "selectable",
+			"selected": false,
+			"value": "Skagerakk"
+		}
+	],
+	"supporting_elements": [
+		{
+			"label": "Secchi",
+			"children": [
+				{
+					"label": "Secchi - default",
+					"status": "selectable",
+					"selected": false,
+					"value": "Secchi - default"
+				}
+			]
+		}
+	],
+	"quality_elements": [
+		{
+			"label": "Phytoplankton",
+			"children": [
+				{
+					"label": "Chlorophyll - default",
+					"status": "selectable",
+					"selected": true,
+					"value": "Chlorophyll - default"
+				},
+				{
+					"label": "Biovolume - default",
+					"status": "selectable",
+					"selected": true,
+					"value": "Biovolume - default"
+				}
+			]
 		}
 	]
 }
@@ -191,32 +381,110 @@ POST /api/subsets/my_workspace/edit
 Response:
 ```
 {
-	"workspace": {
-		"alias": "My Workspace",
-		"name": "my_workspace"
-	},
-	"subsets": [
+	"alias": "My Subset 1",
+	"uuid": "...",
+	"active": true,
+	"periods": [
 		{
-			"alias": "My New Subset",
-			"name": "my_new_subset",
-			"active": true,
-			"periods": [],
-			"water_bodies": [],
-			"water_districts": [],
-			"supporting_elements": [],
-			"quality_elements": []
+			"label": "2006-2012",
+			"status": "selectable",
+			"selected": true,
+			"value": "2006-2012"
 		},
 		{
-			"alias": "My Subset 1",
-			"name": "my_subset_1",
-			"active": true,
-			"periods": [],
-			"water_bodies": [],
-			"water_districts": [],
-			"supporting_elements": [],
-			"quality_elements": []
+			"label": "2012-2017",
+			"status": "selectable",
+			"selected": false,
+			"value": "2012-2017"
+		}
+	],
+	"water_bodies": [
+		{
+			"label": "WB 1",
+			"status": "selectable",
+			"selected": true,
+			"value": "WB 1"
+		},
+		{
+			"label": "WB 2",
+			"status": "selectable",
+			"selected": true,
+			"value": "WB 2"
+		},
+		{
+			"label": "WB 3",
+			"status": "selectable",
+			"selected": false,
+			"value": "WB 3"
+		},
+		{
+			"label": "WB 4",
+			"status": "selectable",
+			"selected": true,
+			"value": "WB 4"
+		}
+	],
+	"water_districts": [
+		{
+			"label": "Bottenhavet",
+			"status": "selectable",
+			"selected": true,
+			"value": "Bottenhavet"
+		},
+		{
+			"label": "Skagerakk",
+			"status": "selectable",
+			"selected": false,
+			"value": "Skagerakk"
+		}
+	],
+	"supporting_elements": [
+		{
+			"label": "Secchi",
+			"children": [
+				{
+					"label": "Secchi - default",
+					"status": "selectable",
+					"selected": false,
+					"value": "Secchi - default"
+				}
+			]
+		}
+	],
+	"quality_elements": [
+		{
+			"label": "Phytoplankton",
+			"children": [
+				{
+					"label": "Chlorophyll - default",
+					"status": "selectable",
+					"selected": true,
+					"value": "Chlorophyll - default"
+				},
+				{
+					"label": "Biovolume - default",
+					"status": "selectable",
+					"selected": true,
+					"value": "Biovolume - default"
+				}
+			]
 		}
 	]
+}
+```
+
+Request:
+```
+POST /api/subsets/delete/<subset_uid>
+
+{"uid": "...", ...}
+```
+
+Response:
+```
+{
+	"uid": "...",
+	...
 }
 ```
 
@@ -225,7 +493,7 @@ Response:
 
 Request:
 ```
-GET /api/reports/my_workspace
+GET /api/reports/<workspace_uid>
 ```
 
 Response:
@@ -237,7 +505,7 @@ Response:
 
 Request:
 ```
-GET /api/reports/my_workspace/my_subset
+GET /api/reports/<workspace_uid>/<subset_uid>
 ```
 
 Response:
