@@ -792,7 +792,7 @@ em {
 	left: 0;
 	right: 0;
 	bottom: 32px;
-	background: linear-gradient(transparent, #fff);
+	background: linear-gradient(rgba(255, 255, 255, 0), #fff);
 }
 
 .subset-new {
