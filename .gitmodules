@@ -1,3 +1,7 @@
 [submodule "lib/ekostat_calculator"]
 	path = lib/ekostat_calculator
 	url = https://github.com/ekostat/ekostat_calculator.git
+[submodule "lib/ekostat_calculator_django"]
+	path = lib/ekostat_calculator_django
+	url = https://github.com/ekostat/ekostat_calculator.git
+	branch = django
