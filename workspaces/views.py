@@ -5,9 +5,9 @@ from django.views.decorators.http import require_GET, require_POST
 
 import os
 
-from lib.ekostat_calculator_django.event_handler import EventHandler
+from lib.ekostat_calculator.event_handler import EventHandler
 
-root_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'lib', 'ekostat_calculator_django')
+root_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'lib', 'ekostat_calculator')
 ekos = EventHandler(root_dir)
 
 user_id = 1
