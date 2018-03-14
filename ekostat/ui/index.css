@@ -108,6 +108,7 @@ fieldset {
 	border: none;
 }
 
+input[type=number],
 input[type=text],
 input[type=password],
 select {
@@ -540,6 +541,9 @@ em {
 		padding: 10px 22px;
 		float: left;
 		width: 33%;
+	}
+	.editable-subset .actions {
+		clear: both;
 	}
 }
 
