@@ -13,7 +13,8 @@ class Workspace extends React.Component {
 
 		this.state = {
 			modalIsOpen: false,
-			workspaces: []
+			workspaces: [],
+			workspace: { subsets: [] }
 		};
 
 		this.openModal = this.openModal.bind(this);
@@ -34,12 +35,25 @@ class Workspace extends React.Component {
 		this.setState({workspaces: result.workspaces});
 	}
 
+	async requestSubsetList(workspace_uuid) {
+		const response = await fetch(`/api/subsets/${workspace_uuid}`, {credentials: 'same-origin'});
+		const result = await response.json();
+		this.setState({workspace: result});
+	}
+
 	componentDidMount() {
-		this.requestWorkspaceList()
+		this.requestWorkspaceList();
+		if (this.props.match.params.workspace_uuid) {
+			this.requestSubsetList(this.props.match.params.workspace_uuid);
+		}
 	}
 
 	renderWorkspaceOption(workspace, index) {
 		return <option key={index} value={workspace.uuid}>{workspace.alias}</option>
+	}
+
+	renderSubset(subset, index) {
+		return <Subset key={index} active={subset.active} name={subset.alias} onClickEdit={this.openModal} />
 	}
 
 	render() {
@@ -59,10 +73,7 @@ class Workspace extends React.Component {
 				</header>
 
 				<div className="workspace-subsets">
-					<Subset active={true} name="My Subset 1" onClickEdit={this.openModal} />
-					<Subset active={true} name="My Subset 2" onClickEdit={this.openModal} />
-					<Subset active={false} name="My Subset 3" onClickEdit={this.openModal} />
-					<Subset active={true} name="My Subset 4" onClickEdit={this.openModal} />
+					{this.state.workspace.subsets.map(this.renderSubset.bind(this))}
 					<div className="subset subset-new">
 						<button>
 							<i>+</i>

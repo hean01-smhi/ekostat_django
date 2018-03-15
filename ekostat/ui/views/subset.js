@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Link, withRouter, matchPath} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
+import {Areas} from './areas';
 
 const Subset = withRouter(({active, name, history, onClickEdit}) => {
 	const match = matchPath(history.location.pathname, {path: '/:lang/'});
@@ -59,7 +60,23 @@ class EditableSubset extends React.Component {
 		super(props)
 
 		this.state = {
-			step: "1"
+			step: "1",
+			units: [
+				{
+					"label": "Bottenhavet",
+					"value": "bottenhavet",
+					"status": "selectable",
+					"active": true,
+					"children": [
+						{
+							"label": "ABC",
+							"value": "abc",
+							"status": "disabled",
+							"active": false
+						}
+					]
+				}
+			]
 		}
 
 		this.chooseStep = this.chooseStep.bind(this);
@@ -75,23 +92,7 @@ class EditableSubset extends React.Component {
 				<div className="editable-subset">
 					<div className="subset-selections">
 						<h3>Units</h3>
-						<div>
-							<label>
-								Water district
-								<select>
-									<option>Bottenhavet</option>
-									<option>Skagerakk</option>
-								</select>
-							</label>
-							<label>
-								Water bodies
-								<select>
-									<option>WB 1</option>
-									<option>WB 2</option>
-									<option>WB 3</option>
-								</select>
-							</label>
-						</div>
+						<Areas nodes={this.state.units} />
 					</div>
 					<div className="subset-selections">
 						<h3>Period</h3>

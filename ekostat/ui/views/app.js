@@ -23,7 +23,7 @@ const Navigation = withRouter(({match}) => (
 				</NavLink>
 			</li>
 			<li>
-				<NavLink to={`${match.url}workspaces`}>
+				<NavLink to={`${match.url}workspaces/default_workspace`}>
 					<FormattedMessage id="navigation.item_workspace" defaultMessage="Workspace" />
 				</NavLink>
 			</li>
@@ -40,11 +40,11 @@ const Main = withRouter(({match}) => (
 	<main className="main" role="main">
 		<Switch>
 			<Route path={`${match.url}about`} component={About} />
-			<Route path={`${match.url}workspaces`} component={Workspace} />
+			<Route path={`${match.url}workspaces/:workspace_uuid`} component={Workspace} />
 			<Route exact path={`${match.url}report/:workspace`} component={Report} />
 			<Route exact path={`${match.url}report/:workspace/:subset`} component={Report} />
 			<Route path={`${match.url}preferences`} component={Preferences} />
-			<Redirect exact from={match.url} to={`${match.url}workspaces`} />
+			<Redirect exact from={match.url} to={`${match.url}workspaces/default_workspace`} />
 			<Route component={NotFound} />
 		</Switch>
 	</main>

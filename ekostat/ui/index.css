@@ -535,6 +535,10 @@ em {
 	margin: 0 5px 0 0;
 }
 
+.editable-subset .areas li ul {
+	padding-left: 16px;
+}
+
 @media(min-width: 768px) {
 	.editable-subset .subset-selections {
 		margin: 0;
@@ -546,6 +550,7 @@ em {
 		clear: both;
 	}
 }
+
 
 
 .report-details,
