@@ -29,7 +29,7 @@ class Workspace extends React.Component {
 	}
 
 	async requestWorkspaceList() {
-		const response = await fetch('/api/workspaces/');
+		const response = await fetch('/api/workspaces/', {credentials: 'same-origin'});
 		const result = await response.json();
 		this.setState({workspaces: result.workspaces});
 	}
