@@ -12,7 +12,8 @@ class Workspace extends React.Component {
 		super(props);
 
 		this.state = {
-			modalIsOpen: false
+			modalIsOpen: false,
+			workspaces: []
 		};
 
 		this.openModal = this.openModal.bind(this);
@@ -27,6 +28,19 @@ class Workspace extends React.Component {
 		this.setState({modalIsOpen: false});
 	}
 
+	async requestWorkspaceList() {
+		const response = await fetch('/api/workspaces/');
+		const result = await response.json();
+		this.setState({workspaces: result.workspaces});
+	}
+
+	componentDidMount() {
+		this.requestWorkspaceList()
+	}
+
+	renderWorkspaceOption(workspace, index) {
+		return <option key={index} value={workspace.uuid}>{workspace.alias}</option>
+	}
 
 	render() {
 		const {history, match} = this.props;
@@ -40,10 +54,7 @@ class Workspace extends React.Component {
 						<span className="user-name">John Doe</span>
 					</div>
 					<select onChange={(e) => history.push(match.url + '/' + e.target.value)}>
-						<option value="my_workspace_1">My Workspace</option>
-						<option value="my_workspace_2">My Second Workspace</option>
-						<option value="my_workspace_3">My Third Workspace</option>
-						<option value="default">Default Workspace (shared)</option>
+						{this.state.workspaces.map(this.renderWorkspaceOption.bind(this))}
 					</select>
 				</header>
 
