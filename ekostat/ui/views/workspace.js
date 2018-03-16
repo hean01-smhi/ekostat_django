@@ -64,7 +64,7 @@ class Workspace extends React.Component {
 	}
 
 	renderSubset(subset, index) {
-		return <Subset key={index} active={subset.active} name={subset.alias} onClickEdit={this.onClickSubset.bind(this, subset)} />
+		return <Subset key={index} subset={subset} onClickEdit={this.onClickSubset.bind(this, subset)} />
 	}
 
 	renderSubsets() {

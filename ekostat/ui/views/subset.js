@@ -4,48 +4,67 @@ import {Link, withRouter, matchPath} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 import {Areas} from './areas';
 
-const Subset = withRouter(({active, name, history, onClickEdit}) => {
+const Subset = withRouter(({subset, history, onClickEdit}) => {
 	const match = matchPath(history.location.pathname, {path: '/:lang/'});
+
+	const renderSelectedElements = (elements, index) => {
+		return (
+			<React.Fragment key={index}>
+				<dt>{elements.label}</dt>
+				<dd>{elements.values.join(', ')}</dd>
+			</React.Fragment>
+		);
+	};
+
+	const getSelectedElements = (elements) => {
+		const result = [];
+
+		elements.forEach((element) => {
+			const selectedElements = [];
+
+			element.children.forEach((childElement) => {
+				if (childElement.selected) {
+					selectedElements.push(childElement.label);
+				}
+			});
+
+			if (selectedElements.length > 0) {
+				result.push({label: element.label, values: selectedElements});
+			}
+		});
+
+		return result;
+	};
+
+	const selectedAreas = [
+		{
+			label: "Water district",
+			values: ["Bottenhavet"]
+		},
+		{
+			label: "Water bodies",
+			values: ["WB 1", "WB 2", "WB 3", "WB 4"]
+		}
+	];
+
+	const selectedQualityElements = getSelectedElements(subset.quality_elements);
+	const selectedSupportingElements = getSelectedElements(subset.supporting_elements);
+	const selectedPeriods = getSelectedElements([{label: 'Period', children: subset.periods}]);
+
 	return (
-		<div className={['subset', active ? 'subset-enabled' : 'subset-disabled'].join(' ')} onClick={onClickEdit}>
+		<div className={['subset', subset.active ? 'subset-enabled' : 'subset-disabled'].join(' ')} onClick={onClickEdit}>
 			<header>
-				<h2>{name}</h2>
+				<h2>{subset.name}</h2>
 				<button type="button" className="subset-edit" onClick={onClickEdit}>
 					<i className="icon-edit"></i>
 					<FormattedMessage id="subset.button_edit" defaultMessage="Edit" />
 				</button>
 			</header>
 			<dl className="subset-selections">
-				<dt>Water district</dt>
-				<dd>Bottenhavet</dd>
-				<dt>Water bodies</dt>
-				<dd>WB 1</dd>
-				<dd>WB 2</dd>
-				<dd>WB 3</dd>
-				<dt>Period</dt>
-				<dd>2006-2012</dd>
-			</dl>
-			<dl className="subset-selections">
-				<dt>Phytoplankton</dt>
-				<dd>Chlorophyll - default</dd>
-				<dd>Biovolume - default</dd>
-				<dd>Chlorophyll *- satellite</dd>
-				<dd>Chlorophyll *- model</dd>
-				<dt>Benthic fauna</dt>
-				<dd>BQI - default</dd>
-				<dd>BQI - extrapolation</dd>
-				<dt>Vegetation</dt>
-				<dd>MSMDI - default</dd>
-				<dd>Eelgrass *- depthlimit</dd>
-			</dl>
-			<dl className="subset-selections">
-				<dt>Nutrients</dt>
-				<dd>N, winter - default</dd>
-				<dd>N, summer - default</dd>
-				<dt>Secchi</dt>
-				<dd>Secchi - default</dd>
-				<dt>Oxygen</dt>
-				<dd>Oxygen 1 - default</dd>
+				{selectedAreas.map(renderSelectedElements)}
+				{selectedPeriods.map(renderSelectedElements)}
+				{selectedQualityElements.map(renderSelectedElements)}
+				{selectedSupportingElements.map(renderSelectedElements)}
 			</dl>
 			<Link to={`/${match.params.lang}/report/my_workspace_1/my_subset1`} className="subset-report">
 				<FormattedMessage id="subset.button_view_report" defaultMessage="View report" />
@@ -61,7 +80,7 @@ class EditableSubset extends React.Component {
 
 		this.state = {
 			step: "1",
-			units: [
+			areas: [
 				{
 					"label": "Bottenhavet",
 					"value": "bottenhavet",
@@ -86,16 +105,42 @@ class EditableSubset extends React.Component {
 		this.setState({step: e.target.value})
 	}
 
+	renderElements(elements) {
+		return (
+			<fieldset>
+				<legend>{elements.label}</legend>
+				<ul>
+					{elements.children.map(this.renderElement.bind(this))}
+				</ul>
+			</fieldset>
+		);
+	}
+
+	renderElement(element, index) {
+		return (
+			<li key={index}>
+				<label>
+					<input type="checkbox" disabled={element.status == "not selectable"} />
+					{element.label}
+				</label>
+			</li>
+		);
+	}
+
 	render() {
 		if (this.state.step == '1') {
 	 		return (
 				<div className="editable-subset">
 					<div className="subset-selections">
-						<h3>Units</h3>
-						<Areas nodes={this.state.units} />
+						<h3>
+							<FormattedMessage id="subset.heading_areas" defaultMessage="Areas" />
+						</h3>
+						<Areas nodes={this.state.areas} />
 					</div>
 					<div className="subset-selections">
-						<h3>Period</h3>
+						<h3>
+							<FormattedMessage id="subset.heading_periods" defaultMessage="Periods" />
+						</h3>
 						<div>
 							<label>
 								From (year)
@@ -109,7 +154,7 @@ class EditableSubset extends React.Component {
 					</div>
 					<div className="actions">
 						<button onClick={this.chooseStep} value="2">
-							Show quality and supporting elements &raquo;
+							<FormattedMessage id="subset.button_show_elements" defaultMessage="Show quality and supporting elements" /> &raquo;
 						</button>
 					</div>
 				</div>
@@ -119,146 +164,20 @@ class EditableSubset extends React.Component {
 			return (
 				<div className="editable-subset">
 					<div className="subset-selections">
-						<h3>Biological quality elements</h3>
-						<fieldset>
-							<legend>Phytoplankton</legend>
-							<ul>
-								<li>
-									<label>
-										<input type="checkbox" />
-										Chlorophyll - default
-									</label>
-								</li>
-								<li>
-									<label>
-										<input type="checkbox" />
-										Biovolume - default
-									</label>
-								</li>
-								<li>
-									<label>
-										<input type="checkbox" />
-										Chlorophyll *- conc
-									</label>
-								</li>
-								<li>
-									<label>
-										<input type="checkbox" />
-										Chlorophyll *- satellite
-									</label>
-								</li>
-								<li>
-									<label>
-										<input type="checkbox" />
-										Chlorophyll *- model
-									</label>
-								</li>
-							</ul>
-						</fieldset>
-						<fieldset>
-							<legend>Benthic fauna</legend>
-							<ul>
-								<li>
-									<label>
-										<input type="checkbox" />
-										BQI - default
-									</label>
-								</li>
-								<li>
-									<label>
-										<input type="checkbox" />
-										BQI *- default
-									</label>
-								</li>
-								<li>
-									<label>
-										<input type="checkbox" />
-										BQI *- extrapolation
-									</label>
-								</li>
-							</ul>
-						</fieldset>
-						<fieldset>
-							<legend>Vegetation</legend>
-							<ul>
-								<li>
-									<label>
-										<input type="checkbox" />
-										MSMDI - default
-									</label>
-								</li>
-								<li>
-									<label>
-										<input type="checkbox" />
-										Eelgrass *- depthlimit
-									</label>
-								</li>
-								<li>
-									<label>
-										<input type="checkbox" />
-										Filamentoues *- %
-									</label>
-								</li>
-							</ul>
-						</fieldset>
+						<h3>
+							<FormattedMessage id="subset.heading_biological_elements" defaultMessage="Biological quality elements" />
+						</h3>
+						{this.props.subset.quality_elements.map(this.renderElements.bind(this))}
 					</div>
 					<div className="subset-selections">
-						<h3>Supporting element</h3>
-						<fieldset>
-							<legend>Nutrients</legend>
-							<ul>
-								<li>
-									<label>
-										<input type="checkbox" />
-										N, winter - default
-									</label>
-								</li>
-								<li>
-									<label>
-										<input type="checkbox" />
-										N, summer - default
-									</label>
-								</li>
-								<li>
-									<label>
-										<input type="checkbox" />
-										P, winter - default
-									</label>
-								</li>
-								<li>
-									<label>
-										<input type="checkbox" />
-										P, summer - default
-									</label>
-								</li>
-							</ul>
-						</fieldset>
-						<fieldset>
-							<legend>Secchi</legend>
-							<ul>
-								<li>
-									<label>
-										<input type="checkbox" />
-										Secchi - default
-									</label>
-								</li>
-							</ul>
-						</fieldset>
-						<fieldset>
-							<legend>Oxygen</legend>
-							<ul>
-								<li>
-									<label>
-										<input type="checkbox" />
-										Oxygen 1 - default
-									</label>
-								</li>
-							</ul>
-						</fieldset>
+						<h3>
+							<FormattedMessage id="subset.heading_supporting_elements" defaultMessage="Supporting element" />
+						</h3>
+						{this.props.subset.supporting_elements.map(this.renderElements.bind(this))}
 					</div>
 					<div className="actions">
 						<button onClick={this.chooseStep} value="1">
-							&laquo; Choose unit and period
+							&laquo; <FormattedMessage id="subset.button_areas_and_period" defaultMessage="Choose areas and period" />
 						</button>
 					</div>
 				</div>
