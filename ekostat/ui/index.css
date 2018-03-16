@@ -325,6 +325,10 @@ em {
 	margin: 0 0 16px;
 }
 
+.workspace-subsets .loading-indicator {
+	padding: 125px 0;
+}
+
 .subset {
 	position: relative;
 	margin: 16px 0;
@@ -768,5 +772,90 @@ em {
 		left: 40px;
 		right: 40px;
 		bottom: 40px;
+	}
+}
+
+
+.loading-indicator {
+	text-align: center;
+	color: #aaa;
+}
+
+.loading-indicator-staples {
+	position: relative;
+	margin: 10px auto;
+	height: 40px;
+	width: 40px;
+}
+
+.loading-indicator-staple {
+	position: absolute;
+	bottom: 0;
+	width: 10px;
+	height: 10px;
+	background: #aaa;
+}
+
+.loading-indicator-staple:nth-child(1) {
+	left: 0;
+	height: 10px;
+}
+
+.loading-indicator-staple:nth-child(2) {
+	left: 15px;
+	height: 25px;
+}
+
+.loading-indicator-staple:nth-child(3) {
+	left: 30px;
+	height: 40px;
+}
+
+
+.loading-indicator-staple {
+	animation-duration: 2s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+.loading-indicator-staple:nth-child(1) {
+	animation-name: loading_staple_1;
+}
+
+.loading-indicator-staple:nth-child(2) {
+	animation-name: loading_staple_2;
+	animation-delay: 0.2s;
+}
+
+.loading-indicator-staple:nth-child(3) {
+	animation-name: loading_staple_3;
+	animation-delay: 0.4s;
+}
+
+
+@keyframes loading_staple_1 {
+	10% {
+		height: 0;
+	}
+	30% {
+		height: 10px;
+	}
+}
+
+@keyframes loading_staple_2 {
+	10% {
+		height: 0;
+	}
+	30% {
+		height: 25px;
+	}
+}
+
+@keyframes loading_staple_3 {
+	10% {
+		height: 0;
+	}
+	30% {
+		height: 40px;
 	}
 }
