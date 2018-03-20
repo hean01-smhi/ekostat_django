@@ -2,10 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Link, matchPath} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
-import {Subset, EditableSubset} from './subset';
+import {Subsets, Subset, SubsetModal} from './subset';
 import {LoadingIndicator} from './common';
 import Modal from 'react-modal';
-
 
 class Workspace extends React.Component {
 
@@ -23,6 +22,12 @@ class Workspace extends React.Component {
 
 		this.openModal = this.openModal.bind(this);
 		this.closeModal = this.closeModal.bind(this);
+		//this.onClickSubset = this.onClickSubset.bind(this);
+		this.onChangeWorkspace = this.onChangeWorkspace.bind(this);
+		this.renderWorkspaceHeadingText = this.renderWorkspaceHeadingText.bind(this);
+		this.renderWorkspaceOption = this.renderWorkspaceOption.bind(this);
+		this.renderSubset = this.renderSubset.bind(this);
+		this.renderSubsets = this.renderSubsets.bind(this);
 	}
 
 	openModal() {
@@ -37,13 +42,19 @@ class Workspace extends React.Component {
 		this.setState({currentSubset: subset, modalIsOpen: true});
 	}
 
+	onChangeWorkspace(e) {
+		const {history, match, location} = this.props;
+		const m = matchPath(history.location.pathname, {path: '/:lang/'});
+		history.push(`/${m.params.lang}/workspaces/${e.target.value}`);
+	}
+
 	async _fetch(path) {
 		const response = await fetch(`/api/${path}`, {credentials: 'same-origin'});
 		return await response.json();
 	}
 
 	async requestWorkspaceList() {
-		const response = await this._fetch('workspaces/')
+		const response = await this._fetch('workspaces/');
 		this.setState({availableWorkspaces: response.workspaces});
 	}
 
@@ -59,67 +70,73 @@ class Workspace extends React.Component {
 		}
 	}
 
-	renderWorkspaceOption(workspace, index) {
-		return <option key={index} value={workspace.uuid}>{workspace.alias}</option>
+	componentDidUpdate(prevProps) {
+		if (prevProps.match.params.workspace_uuid !== this.props.match.params.workspace_uuid) {
+			this.setState({isLoading: true, currentWorkspace: {}});
+			this.requestSubsetList(this.props.match.params.workspace_uuid);
+		}
+	}
+
+	renderWorkspaceHeadingText() {
+		if (this.state.currentWorkspace && this.state.currentWorkspace.alias) {
+			return <React.Fragment>{this.state.currentWorkspace.alias}</React.Fragment>;
+		} else {
+			return <FormattedMessage id="workspace.heading_loading" defaultMessage="Loading workspace..." />;
+		}
+	}
+
+	renderWorkspaceOption({alias, uuid}, index) {
+		return <option key={index} value={uuid}>{alias}</option>;
 	}
 
 	renderSubset(subset, index) {
-		return <Subset key={index} subset={subset} onClickEdit={this.onClickSubset.bind(this, subset)} />
+		return <Subset key={index} item={subset} onClick={this.onClickSubset.bind(this, subset)} />
 	}
 
 	renderSubsets() {
 		if (this.state.isLoading) {
 			return <LoadingIndicator />;
 		}
-		return(
-			<div>
-				{this.state.availableSubsets.map(this.renderSubset.bind(this))}
+
+		return (
+			<React.Fragment>
+				{this.state.availableSubsets.map(this.renderSubset)}
 				<div className="subset subset-new">
 					<button>
 						<i>+</i>
 						<FormattedMessage id="workspace.button_new_subset" defaultMessage="Create new subset" />
 					</button>
 				</div>
-			</div>
+			</React.Fragment>
 		);
 	}
 
 	render() {
 		const {history, match} = this.props;
 		const m = matchPath(history.location.pathname, {path: '/:lang/'});
-
-		return(
+		return (
 			<section className="workspace">
-				<header>
-					<h1>{this.state.currentWorkspace.alias || 'Loading workspace...'}</h1>
+				<header className="workspace-header">
+					<h1>{this.renderWorkspaceHeadingText()}</h1>
 					<div className="user">
 						<i className="user-badge">JD</i>
 						<span className="user-name">John Doe</span>
 					</div>
-					<select onChange={(e) => history.push(match.url + '/' + e.target.value)}>
-						{this.state.availableWorkspaces.map(this.renderWorkspaceOption.bind(this))}
+					<select onChange={this.onChangeWorkspace} value={this.state.currentWorkspace.uuid}>
+						{this.state.availableWorkspaces.map(this.renderWorkspaceOption)}
 					</select>
 				</header>
-
 				<div className="workspace-subsets">
 					{this.renderSubsets()}
 				</div>
-
-				<div className="actions">
-					<Link to={`/${m.params.lang}/report/my_workspace_1`}>
-						<FormattedMessage id="workspace.button_view_report" defaultMessage="View report" />
-					</Link>
-				</div>
-
-				<Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} className="modal" overlayClassName="modal-overlay">
-					<header className="modal-header">
-						<h2>{this.state.currentSubset.alias}</h2>
-						<button className="modal-close" onClick={this.closeModal}>&times;</button>
-					</header>
-					<div className="modal-body">
-						<EditableSubset subset={this.state.currentSubset} />
+				<footer className="workspace-footer">
+					<div className="actions">
+						<Link to={`/${m.params.lang}/report/my_workspace_1`}>
+							<FormattedMessage id="workspace.button_view_report" defaultMessage="View report" />
+						</Link>
 					</div>
-				</Modal>
+				</footer>
+				<SubsetModal item={this.state.currentSubset} isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} />
 			</section>
 		);
 	}

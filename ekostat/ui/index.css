@@ -407,25 +407,34 @@ em {
 	background: url(images/icon-edit.svg) no-repeat center center;
 }
 
-.subset .subset-selections {
+.icon-settings {
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	background: url(images/icon-settings.svg) no-repeat center center;
+}
+
+.subset .subset-description {
 	font-size: 12px;
 }
 
-.subset .subset-selections dd {
+.subset .subset-description dd {
 	margin: 0 4px 0 0;
 	padding: 0;
 	display: inline-block;
 }
 
-.subset .subset-selections dd:after {
+.subset .subset-description dd:after {
 	content: ",";
 }
 
-.subset .subset-selections dd:last-child:after {
+.subset .subset-description dd:last-child:after {
 	content: "";
 }
 
-.subset .subset-selections dt {
+.subset .subset-description dt {
 	margin: 5px 0 0;
 }
 
@@ -504,54 +513,80 @@ em {
 }
 
 
-.editable-subset .subset-selections {
+.subset-assessment-units,
+.subset-quality-elements,
+.subset-supporting-elements {
 	margin: 32px 0;
 }
 
-.editable-subset .subset-selections h3 {
+.subset-assessment-units h3,
+.subset-quality-elements h3,
+.subset-supporting-elements h3 {
 	margin: 0 0 32px;
 	font-size: 16px;
 }
 
-.editable-subset .subset-selections legend {
+.subset-assessment-units legend,
+.subset-quality-elements legend,
+.subset-supporting-elements legend {
 	font-weight: bold;
 }
 
-.editable-subset .subset-selections ul {
+.subset-quality-elements ul,
+.subset-supporting-elements ul {
 	padding: 0;
 	list-style: none;
 }
 
-.editable-subset .subset-selections li {
+.subset-quality-elements li,
+.subset-supporting-elements li {
 	margin: 8px 0;
 }
 
-.editable-subset .subset-selections label {
+.subset-quality-elements label,
+.subset-supporting-elements label {
 	display: block;
 	padding: 4px 0;
 }
 
-.editable-subset .subset-selections select {
+
+.subset-assessment-period label {
+	float: left;
+	width: 50%;
+}
+
+.subset-assessment-period input[type=number] {
+	display: block;
 	width: 100%;
 }
 
-.editable-subset .subset-selections input {
-	margin: 0 5px 0 0;
+.subset-assessment-period-from {
+	padding-right: 5px;
 }
 
-.editable-subset .areas li ul {
-	padding-left: 16px;
+.subset-assessment-period-to {
+	padding-left: 5px;
+}
+
+.subset-assessment-period:after {
+	content: ".";
+	display: block;
+	height: 0;
+	visibility: hidden;
+	clear: both;
 }
 
 @media(min-width: 768px) {
-	.editable-subset .subset-selections {
-		margin: 0;
+	.subset-assessment-units,
+	.subset-quality-elements,
+	.subset-supporting-elements {
 		padding: 10px 22px;
 		float: left;
-		width: 33%;
+		width: 35%;
 	}
-	.editable-subset .actions {
-		clear: both;
+
+	.subset-assessment-units {
+		width: 30%;
 	}
 }
 
@@ -682,6 +717,28 @@ em {
 }
 
 
+.actions {
+	text-align: right;
+}
+
+.button {
+	font-size: 12px;
+	display: inline-block;
+	margin: 2px;
+	padding: 8px;
+	border: none;
+	border-radius: 4px;
+	background: #eee;
+	color: #333;
+	cursor: pointer;
+}
+
+.button-delete {
+	color: #fff;
+	background: #f5515f;
+}
+
+
 
 .demo-notice {
 	position: fixed;
@@ -740,6 +797,17 @@ em {
 	z-index: 2000;
 }
 
+.modal-footer {
+	position: absolute;
+	bottom: 0;
+	left: 8px;
+	right: 8px;
+	height: 60px;
+	padding: 10px 8px;
+	background: rgba(255, 255, 255, 0.95);
+	z-index: 2000;
+}
+
 .modal-body {
 	position: absolute;
 	top: 0;
@@ -747,7 +815,7 @@ em {
 	right: 0;
 	bottom: 0;
 	overflow: auto;
-	padding: 60px 20px 20px;
+	padding: 60px 20px;
 }
 
 .modal-close {
@@ -858,4 +926,111 @@ em {
 	30% {
 		height: 40px;
 	}
+}
+
+
+
+.react-dropdown-tree-select .hide:not(.match-in-children) {
+	display: none;
+}
+
+.react-dropdown-tree-select {
+	position: relative;
+	padding-top: 50px;
+	font-size: 12px;
+}
+
+.react-dropdown-tree-select .tag-list {
+	padding: 10px 0;
+}
+
+.react-dropdown-tree-select .tag-item:last-child {
+	position: absolute;
+	top: 20px;
+	left: 0;
+	right: 0;
+}
+
+.react-dropdown-tree-select .tag-item .search {
+	width: 100%;
+}
+
+.react-dropdown-tree-select .tag-item {
+	display: inline-block;
+	padding: 4px;
+}
+
+.react-dropdown-tree-select .tag-item .tag {
+	padding: 2px 4px;
+	color: #333;
+	background: #f4f4f4;
+	border-radius: 8px;
+}
+
+.react-dropdown-tree-select .tag-item .tag-remove {
+	display: inline;
+	margin: 0 0 0 5px;
+	padding: 0;
+	border: none;
+	background: none;
+	font-size: inherit;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.react-dropdown-tree-select .root {
+	padding: 0;
+	list-style: none;
+}
+
+.react-dropdown-tree-select .node > label {
+	display: inline-block !important;
+	cursor: pointer;
+	margin-left: 2px;
+}
+
+.react-dropdown-tree-select .node-label {
+	display: inline-block;
+	margin-left: 5px;
+}
+
+.react-dropdown-tree-select .dropdown-content {
+	position: absolute;
+	top: 55px;
+	left: 0;
+	right: 0;
+	border: 1px solid #eee;
+	background: rgba(245,245,245,0.95);
+}
+
+.react-dropdown-tree-select .match-in-children.hide .node-label {
+	opacity: 0.5;
+}
+
+.react-dropdown-tree-select .toggle:after {
+	display: inline-block;
+	margin: 0 10px;
+	content: "";
+	cursor: pointer;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: bold;
+	text-align: center;
+}
+
+.react-dropdown-tree-select .toggle.expanded:after,
+.react-dropdown-tree-select .toggle.collapsed:after {
+	content: "+";
+}
+
+.react-dropdown-tree-select .toggle.expanded:after {
+	transform: rotate(45deg);
+}
+
+.react-dropdown-tree-select .searchModeOn .toggle {
+	color: #ccc;
+}
+
+.react-dropdown-tree-select .searchModeOn .toggle:after {
+	transform: rotate(45deg);
 }

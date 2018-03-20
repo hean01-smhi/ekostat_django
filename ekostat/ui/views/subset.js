@@ -1,190 +1,135 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import DropdownTreeSelect from 'react-dropdown-tree-select';
+import Modal from 'react-modal';
 import {Link, withRouter, matchPath} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
-import {Areas} from './areas';
 
-const Subset = withRouter(({subset, history, onClickEdit}) => {
-	const match = matchPath(history.location.pathname, {path: '/:lang/'});
+const getSelectedItems = (items) => {
+	const result = [];
 
-	const renderSelectedElements = (elements, index) => {
-		return (
-			<React.Fragment key={index}>
-				<dt>{elements.label}</dt>
-				<dd>{elements.values.join(', ')}</dd>
-			</React.Fragment>
-		);
-	};
+	items.forEach((item) => {
+		const values = [];
 
-	const getSelectedElements = (elements) => {
-		const result = [];
-
-		elements.forEach((element) => {
-			const selectedElements = [];
-
-			element.children.forEach((childElement) => {
-				if (childElement.selected) {
-					selectedElements.push(childElement.label);
-				}
-			});
-
-			if (selectedElements.length > 0) {
-				result.push({label: element.label, values: selectedElements});
+		item.children.forEach((childItem) => {
+			if (childItem.selected) {
+				values.push(childItem.label);
 			}
 		});
 
-		return result;
-	};
-
-	const selectedAreas = [
-		{
-			label: "Water district",
-			values: ["Bottenhavet"]
-		},
-		{
-			label: "Water bodies",
-			values: ["WB 1", "WB 2", "WB 3", "WB 4"]
+		if (values.length > 0) {
+			result.push({label: item.label, values: values});
 		}
-	];
+	});
 
-	const selectedQualityElements = getSelectedElements(subset.quality_elements);
-	const selectedSupportingElements = getSelectedElements(subset.supporting_elements);
-	const selectedPeriods = getSelectedElements([{label: 'Period', children: subset.periods}]);
+	return result;
+}
 
+const Description = ({items}) => (
+	<dl className="subset-description">
+		{items.map((item, index) => (
+			<React.Fragment key={index}>
+				<dt>{item.label}</dt>
+				{item.values.map((value, index) => <dd key={index}>{value}</dd>)}
+			</React.Fragment>
+		))}
+	</dl>
+);
+
+const Factors = ({item}) => (
+	<fieldset className="subset-factors">
+		<legend>{item.label}</legend>
+		<ul>
+			{item.children.map((item, index) => (
+				<li key={index}>
+					<label>
+						<input type="checkbox" disabled={item.status == 'not selectable'} />{` ${item.label}`}
+					</label>
+				</li>
+			))}
+		</ul>
+	</fieldset>
+);
+
+
+const Subset = withRouter(({item, history, onClick}) => {
+	const match = matchPath(history.location.pathname, {path: '/:lang/'});
 	return (
-		<div className={['subset', subset.active ? 'subset-enabled' : 'subset-disabled'].join(' ')} onClick={onClickEdit}>
-			<header>
-				<h2>{subset.name}</h2>
-				<button type="button" className="subset-edit" onClick={onClickEdit}>
-					<i className="icon-edit"></i>
-					<FormattedMessage id="subset.button_edit" defaultMessage="Edit" />
-				</button>
+		<div className="subset" onClick={onClick}>
+			<header className="subset-header">
+				<h2>{item.alias}</h2>
 			</header>
-			<dl className="subset-selections">
-				{selectedAreas.map(renderSelectedElements)}
-				{selectedPeriods.map(renderSelectedElements)}
-				{selectedQualityElements.map(renderSelectedElements)}
-				{selectedSupportingElements.map(renderSelectedElements)}
-			</dl>
-			<Link to={`/${match.params.lang}/report/my_workspace_1/my_subset1`} className="subset-report">
-				<FormattedMessage id="subset.button_view_report" defaultMessage="View report" />
-			</Link>
+			<div className="subset-body">
+				<Description items={getSelectedItems(item.areas)} />
+				<Description items={getSelectedItems(item.quality_elements)} />
+				<Description items={getSelectedItems(item.supporting_elements)} />
+			</div>
+			<footer className="subset-footer">
+				<Link to={`/${match.params.lang}/report/my_workspace_1/my_subset1`} className="subset-report">
+					<FormattedMessage id="subset.button_view_report" defaultMessage="View report" />
+				</Link>
+			</footer>
 		</div>
 	);
 });
 
-class EditableSubset extends React.Component {
-
-	constructor(props) {
-		super(props)
-
-		this.state = {
-			step: "1",
-			areas: [
-				{
-					"label": "Bottenhavet",
-					"value": "bottenhavet",
-					"status": "selectable",
-					"active": true,
-					"children": [
-						{
-							"label": "ABC",
-							"value": "abc",
-							"status": "disabled",
-							"active": false
-						}
-					]
-				}
-			]
-		}
-
-		this.chooseStep = this.chooseStep.bind(this);
-	}
-
-	chooseStep(e) {
-		this.setState({step: e.target.value})
-	}
-
-	renderElements(elements) {
-		return (
-			<fieldset>
-				<legend>{elements.label}</legend>
-				<ul>
-					{elements.children.map(this.renderElement.bind(this))}
-				</ul>
-			</fieldset>
-		);
-	}
-
-	renderElement(element, index) {
-		return (
-			<li key={index}>
-				<label>
-					<input type="checkbox" disabled={element.status == "not selectable"} />
-					{element.label}
-				</label>
-			</li>
-		);
-	}
-
-	render() {
-		if (this.state.step == '1') {
-	 		return (
-				<div className="editable-subset">
-					<div className="subset-selections">
-						<h3>
-							<FormattedMessage id="subset.heading_areas" defaultMessage="Areas" />
-						</h3>
-						<Areas nodes={this.state.areas} />
+const SubsetModal = ({item, isOpen, onRequestClose}) => (
+	<Modal isOpen={isOpen} onRequestClose={onRequestClose} className="modal" overlayClassName="modal-overlay">
+		<header className="modal-header">
+			<h2>{item.alias}</h2>
+			<button className="modal-close" onClick={onRequestClose}>&times;</button>
+		</header>
+		<div className="modal-body">
+			<div className="subset-assessment-units">
+				<h3>
+					<FormattedMessage id="subset.heading_assessment_units" defaultMessage="Assessment units" />
+				</h3>
+				<fieldset className="subset-assessment-areas">
+					<legend>
+						<FormattedMessage id="subset.legend_areas" defaultMessage="Areas" />
+					</legend>
+					<DropdownTreeSelect data={item.areas} keepTreeOnSearch={true} />
+				</fieldset>
+				<fieldset className="subset-assessment-periods">
+					<legend>
+						<FormattedMessage id="subset.legend_periods" defaultMessage="Periods" />
+					</legend>
+					<div className="subset-assessment-period">
+						<label className="subset-assessment-period-from">
+							<FormattedMessage id="subset.label_from_year" defaultMessage="From (year)" />
+							<input type="number" min="2001" max="2018" defaultValue="2007" />
+						</label>
+						<label className="subset-assessment-period-to">
+							<FormattedMessage id="subset.label_to_year" defaultMessage="To (year)" />
+							<input type="number" min="2001" max="2018" defaultValue="2011" />
+						</label>
 					</div>
-					<div className="subset-selections">
-						<h3>
-							<FormattedMessage id="subset.heading_periods" defaultMessage="Periods" />
-						</h3>
-						<div>
-							<label>
-								From (year)
-								<input type="number" min="2001" max="2018" value="2007" />
-							</label>
-							<label>
-								To (year)
-								<input type="number" min="2001" max="2018" value="2011" />
-							</label>
-						</div>
-					</div>
-					<div className="actions">
-						<button onClick={this.chooseStep} value="2">
-							<FormattedMessage id="subset.button_show_elements" defaultMessage="Show quality and supporting elements" /> &raquo;
-						</button>
-					</div>
-				</div>
-			);
-	 	}
-	 	else {
-			return (
-				<div className="editable-subset">
-					<div className="subset-selections">
-						<h3>
-							<FormattedMessage id="subset.heading_biological_elements" defaultMessage="Biological quality elements" />
-						</h3>
-						{this.props.subset.quality_elements.map(this.renderElements.bind(this))}
-					</div>
-					<div className="subset-selections">
-						<h3>
-							<FormattedMessage id="subset.heading_supporting_elements" defaultMessage="Supporting element" />
-						</h3>
-						{this.props.subset.supporting_elements.map(this.renderElements.bind(this))}
-					</div>
-					<div className="actions">
-						<button onClick={this.chooseStep} value="1">
-							&laquo; <FormattedMessage id="subset.button_areas_and_period" defaultMessage="Choose areas and period" />
-						</button>
-					</div>
-				</div>
-			);
-		}
-	}
-}
+				</fieldset>
+			</div>
+			<div className="subset-quality-elements">
+				<h3>
+					<FormattedMessage id="subset.heading_quality_elements" defaultMessage="Biological quality elements" />
+				</h3>
+				{item.quality_elements && item.quality_elements.map((item, index) => <Factors item={item} key={index} />)}
+			</div>
+			<div className="subset-supporting-elements">
+				<h3>
+					<FormattedMessage id="subset.heading_supporting_elements" defaultMessage="Supporting elements" />
+				</h3>
+				{item.supporting_elements && item.supporting_elements.map((item, index) => <Factors item={item} key={index} />)}
+			</div>
+		</div>
+		<footer className="modal-footer">
+			<div className="actions">
+				<button className="button button-delete">
+					<FormattedMessage id="subset.button_delete_subset" defaultMessage="Delete subset" />
+				</button>
+				<button className="button button-default">
+					<FormattedMessage id="subset.button_activate_subset" defaultMessage="Activate subset" />
+				</button>
+			</div>
+		</footer>
+	</Modal>
+);
 
-
-export {EditableSubset, Subset}
+export {Subset, SubsetModal}
