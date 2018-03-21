@@ -5,6 +5,7 @@ import {FormattedMessage} from 'react-intl';
 import {Subsets, Subset, SubsetModal} from './subset';
 import {LoadingIndicator} from './common';
 import Modal from 'react-modal';
+import {Calculator, CalculatorError} from '../calculator';
 
 class Workspace extends React.Component {
 
@@ -17,7 +18,7 @@ class Workspace extends React.Component {
 			currentWorkspace: {},
 			availableSubsets: [],
 			currentSubset: {},
-			isLoading: true
+			isLoading: false
 		};
 
 		this.openModal = this.openModal.bind(this);
@@ -48,18 +49,14 @@ class Workspace extends React.Component {
 		history.push(`/${m.params.lang}/workspaces/${e.target.value}`);
 	}
 
-	async _fetch(path) {
-		const response = await fetch(`/api/${path}`, {credentials: 'same-origin'});
-		return await response.json();
-	}
-
 	async requestWorkspaceList() {
-		const response = await this._fetch('workspaces/');
+		const response = await Calculator.requestWorkspaceList();
 		this.setState({availableWorkspaces: response.workspaces});
 	}
 
-	async requestSubsetList(workspace_uuid) {
-		const response = await this._fetch(`subsets/${workspace_uuid}`)
+	async requestSubsetList(uuid) {
+		this.setState({isLoading: true});
+		const response = await Calculator.requestSubsetList(uuid)
 		this.setState({currentWorkspace: response.workspace, availableSubsets: response.subsets, isLoading: false});
 	}
 
@@ -72,7 +69,6 @@ class Workspace extends React.Component {
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.match.params.workspace_uuid !== this.props.match.params.workspace_uuid) {
-			this.setState({isLoading: true, currentWorkspace: {}});
 			this.requestSubsetList(this.props.match.params.workspace_uuid);
 		}
 	}
