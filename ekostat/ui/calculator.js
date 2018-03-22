@@ -26,6 +26,14 @@ class Calculator {
 		return this._request('GET', `subsets/${uuid}`);
 	}
 
+	static async requestWorkspaceAdd(data) {
+		return this._request('POST', 'workspaces/add', data);
+	}
+
+	static async requestWorkspaceEdit(uuid, data) {
+		return this._request('POST', `workspaces/edit/${uuid}`, data);
+	}
+
 	static async requestWorkspaceList() {
 		return this._request('GET', 'workspaces/');
 	}

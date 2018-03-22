@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Link as RouterLink, withRouter, matchPath} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
+import {locales} from '../lang';
 
 const LoadingIndicator = () => (
 	<div className="loading-indicator">
@@ -14,4 +16,23 @@ const LoadingIndicator = () => (
 );
 
 
-export {LoadingIndicator}
+const replaceLinkPath = (oldPath, newPath) => {
+	const oldMatchPath = matchPath(oldPath, {path: `/:lang(${locales.join('|')})/`});
+	const newMatchPath = matchPath(newPath, {path: `/:lang(${locales.join('|')})/`});
+
+	newPath = newPath.replace(/^\//, '');
+
+	if (!newMatchPath && oldMatchPath) {
+		newPath = `${oldMatchPath.params.lang}/${newPath}`;
+	}
+
+	return `/${newPath}`;
+}
+
+const Link = withRouter(({history, to, children, onClick, className}) => (
+	<RouterLink to={replaceLinkPath(history.location.pathname, to)} onClick={onClick} className={className}>
+		{children}
+	</RouterLink>
+));
+
+export {Link, LoadingIndicator}

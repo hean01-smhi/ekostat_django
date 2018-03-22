@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DropdownTreeSelect from 'react-dropdown-tree-select';
-import Modal from 'react-modal';
-import {Link, withRouter, matchPath} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
+import {Link} from './common';
 
 const getSelectedItems = (items) => {
 	const result = [];
@@ -42,6 +41,9 @@ const Factors = ({item}) => (
 		<ul>
 			{item.children.map((item, index) => (
 				<li key={index}>
+					<button className="indicator-settings-button">
+						<i className="icon-settings"></i>
+					</button>
 					<label>
 						<input type="checkbox" disabled={item.status == 'not selectable'} />{` ${item.label}`}
 					</label>
@@ -51,33 +53,62 @@ const Factors = ({item}) => (
 	</fieldset>
 );
 
-
-const Subset = withRouter(({item, history, onClick}) => {
-	const match = matchPath(history.location.pathname, {path: '/:lang/'});
-	return (
-		<div className="subset" onClick={onClick}>
-			<header className="subset-header">
-				<h2>{item.alias}</h2>
-			</header>
-			<div className="subset-body">
-				<Description items={getSelectedItems(item.areas)} />
-				<Description items={getSelectedItems(item.quality_elements)} />
-				<Description items={getSelectedItems(item.supporting_elements)} />
-			</div>
-			<footer className="subset-footer">
-				<Link to={`/${match.params.lang}/report/my_workspace_1/my_subset1`} className="subset-report">
-					<FormattedMessage id="subset.button_view_report" defaultMessage="View report" />
-				</Link>
-			</footer>
-		</div>
-	);
-});
-
-const SubsetModal = ({item, isOpen, onRequestClose}) => (
-	<Modal isOpen={isOpen} onRequestClose={onRequestClose} className="modal" overlayClassName="modal-overlay">
-		<header className="modal-header">
+const Subset = ({item, onClick}) => (
+	<div className="subset" onClick={onClick}>
+		<header className="subset-header">
 			<h2>{item.alias}</h2>
-			<button className="modal-close" onClick={onRequestClose}>&times;</button>
+		</header>
+		<div className="subset-body">
+			<Description items={getSelectedItems(item.areas)} />
+			<Description items={getSelectedItems(item.quality_elements)} />
+			<Description items={getSelectedItems(item.supporting_elements)} />
+		</div>
+		<footer className="subset-footer">
+			<Link to={`report/my_workspace_1/my_subset1`} className="subset-report">
+				<FormattedMessage id="subset.button_view_report" defaultMessage="View report" />
+			</Link>
+		</footer>
+	</div>
+);
+
+const SubsetAdd = ({data, onAbort, onConfirm}) => (
+	<React.Fragment>
+		<header className="modal-header">
+			<h2>New subset</h2>
+			<button className="modal-close" onClick={onAbort}>&times;</button>
+		</header>
+		<div className="modal-body">
+			<label>
+				<FormattedMessage id="subset.label_add_subset_source" defaultMessage="Source" />
+				<select>
+					{data.sources.map((item, index) => (
+						<option key={index} value={item.uuid}>{item.alias}</option>
+					))}
+				</select>
+			</label>
+			<label>
+				<FormattedMessage id="subset.label_add_subset_alias" defaultMessage="Alias" />
+				<input type="text" />
+			</label>
+		</div>
+		<footer className="modal-footer">
+			<div className="actions">
+				<button className="button button-default" onClick={onAbort}>
+					<FormattedMessage id="subset.button_add_subset_cancel" defaultMessage="Cancel" />
+				</button>
+				<button className="button button-primary" onClick={onConfirm}>
+					<FormattedMessage id="subset.button_add_subset_save" defaultMessage="Save" />
+				</button>
+			</div>
+		</footer>
+	</React.Fragment>
+);
+
+const SubsetEdit = ({data, onAbort, onConfirm}) => (
+	<React.Fragment>
+		<header className="modal-header">
+			<h2>{data.alias}</h2>
+			<button className="modal-close" onClick={onAbort}>&times;</button>
 		</header>
 		<div className="modal-body">
 			<div className="subset-assessment-units">
@@ -88,7 +119,7 @@ const SubsetModal = ({item, isOpen, onRequestClose}) => (
 					<legend>
 						<FormattedMessage id="subset.legend_areas" defaultMessage="Areas" />
 					</legend>
-					<DropdownTreeSelect data={item.areas} keepTreeOnSearch={true} />
+					<DropdownTreeSelect data={data.areas} keepTreeOnSearch={true} />
 				</fieldset>
 				<fieldset className="subset-assessment-periods">
 					<legend>
@@ -110,13 +141,13 @@ const SubsetModal = ({item, isOpen, onRequestClose}) => (
 				<h3>
 					<FormattedMessage id="subset.heading_quality_elements" defaultMessage="Biological quality elements" />
 				</h3>
-				{item.quality_elements && item.quality_elements.map((item, index) => <Factors item={item} key={index} />)}
+				{data.quality_elements && data.quality_elements.map((item, index) => <Factors item={item} key={index} />)}
 			</div>
 			<div className="subset-supporting-elements">
 				<h3>
 					<FormattedMessage id="subset.heading_supporting_elements" defaultMessage="Supporting elements" />
 				</h3>
-				{item.supporting_elements && item.supporting_elements.map((item, index) => <Factors item={item} key={index} />)}
+				{data.supporting_elements && data.supporting_elements.map((item, index) => <Factors item={item} key={index} />)}
 			</div>
 		</div>
 		<footer className="modal-footer">
@@ -129,7 +160,8 @@ const SubsetModal = ({item, isOpen, onRequestClose}) => (
 				</button>
 			</div>
 		</footer>
-	</Modal>
+	</React.Fragment>
 );
 
-export {Subset, SubsetModal}
+
+export {Subset, SubsetAdd, SubsetEdit}

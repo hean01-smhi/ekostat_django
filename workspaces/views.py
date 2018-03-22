@@ -34,6 +34,7 @@ def edit(request, workspace_uuid):
 		#data = {'alias': 'test_workspace_1_renamed'}
 		data = json.loads(request.body.decode('utf-8'))
 		data['uuid'] = workspace_uuid
+		data['user_id'] = user_id
 		return JsonResponse(ekos.request_workspace_edit(data))
 	except ValueError as e:
 		return JsonResponse({"error_message": "Could not parse JSON."},status=400)
