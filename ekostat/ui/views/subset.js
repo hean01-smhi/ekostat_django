@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Manager, Target, Popper, Arrow} from 'react-popper';
+import {PortalWithState} from 'react-portal';
 import DropdownTreeSelect from 'react-dropdown-tree-select';
 import {FormattedMessage} from 'react-intl';
 import {Link} from './common';
@@ -41,9 +43,7 @@ const Factors = ({item}) => (
 		<ul>
 			{item.children.map((item, index) => (
 				<li key={index}>
-					<button className="indicator-settings-button">
-						<i className="icon-settings"></i>
-					</button>
+					<IndicatorSettings />
 					<label>
 						<input type="checkbox" disabled={item.status == 'not selectable'} />{` ${item.label}`}
 					</label>
@@ -51,6 +51,46 @@ const Factors = ({item}) => (
 			))}
 		</ul>
 	</fieldset>
+);
+
+const IndicatorSettings = () => (
+	<Manager className="indicator-settings">
+		<PortalWithState closeOnOutsideClick closeOnEsc>
+			{({openPortal, closePortal, isOpen, portal}) => [
+				<Target>
+					<button className="indicator-settings-button" onClick={openPortal}>
+						<i className="icon-settings"></i>
+					</button>
+				</Target>,
+				portal(
+					<Popper placement="bottom" className="indicator-settings-content">
+						<label>
+							Water type
+							<select>
+								<option>Type 1</option>
+								<option>Type with longer name</option>
+								<option>Type 3</option>
+							</select>
+						</label>
+						<fieldset>
+							<legend>Settings group A</legend>
+							<div>
+								<label><input type="checkbox" /> {' Option 1'}</label>
+								<label><input type="checkbox" /> {' Option 2'}</label>
+							</div>
+						</fieldset>
+						<fieldset>
+							<legend>Settings group B</legend>
+							<div>
+								<label><input type="checkbox" /> {' Option 3'}</label>
+								<label><input type="checkbox" /> {' Option 4'}</label>
+							</div>
+						</fieldset>
+					</Popper>
+				)
+			]}
+		</PortalWithState>
+	</Manager>
 );
 
 const Subset = ({item, onClick}) => (
@@ -78,18 +118,22 @@ const SubsetAdd = ({data, onAbort, onConfirm}) => (
 			<button className="modal-close" onClick={onAbort}>&times;</button>
 		</header>
 		<div className="modal-body">
-			<label>
-				<FormattedMessage id="subset.label_add_subset_source" defaultMessage="Source" />
-				<select>
-					{data.sources.map((item, index) => (
-						<option key={index} value={item.uuid}>{item.alias}</option>
-					))}
-				</select>
-			</label>
-			<label>
-				<FormattedMessage id="subset.label_add_subset_alias" defaultMessage="Alias" />
-				<input type="text" />
-			</label>
+			<div className="field">
+				<label>
+					<FormattedMessage id="subset.label_add_subset_source" defaultMessage="Source" />
+					<select>
+						{data.sources.map((item, index) => (
+							<option key={index} value={item.uuid}>{item.alias}</option>
+						))}
+					</select>
+				</label>
+			</div>
+			<div className="field">
+				<label>
+					<FormattedMessage id="subset.label_add_subset_alias" defaultMessage="Alias" />
+					<input type="text" />
+				</label>
+			</div>
 		</div>
 		<footer className="modal-footer">
 			<div className="actions">
@@ -112,6 +156,22 @@ const SubsetEdit = ({data, onAbort, onConfirm}) => (
 		</header>
 		<div className="modal-body">
 			<div className="subset-assessment-units">
+				<h3>
+					<FormattedMessage id="subset.heading_status" defaultMessage="Status" />
+				</h3>
+				<div className="field-group">
+					<label>
+						<input type="radio" name="subset_status" value="editable" checked />
+						<FormattedMessage id="subset.label_subset_status_active" defaultMessage="Active" />
+					</label>
+					<label>
+						<input type="radio" name="subset_status"  />
+						<FormattedMessage id="subset.label_subset_status_inactive" defaultMessage="Inactive" />
+					</label>
+					<button className="button button-delete">
+						<FormattedMessage id="subset.button_subset_delete" defaultMessage="Delete" />
+					</button>
+				</div>
 				<h3>
 					<FormattedMessage id="subset.heading_assessment_units" defaultMessage="Assessment units" />
 				</h3>
@@ -136,6 +196,11 @@ const SubsetEdit = ({data, onAbort, onConfirm}) => (
 						</label>
 					</div>
 				</fieldset>
+				<div className="subset-refresh">
+					<button className="button button-alt">
+						<FormattedMessage id="subset.button_refresh_indicators" defaultMessage="Recalculate indicators" />
+					</button>
+				</div>
 			</div>
 			<div className="subset-quality-elements">
 				<h3>
@@ -152,11 +217,11 @@ const SubsetEdit = ({data, onAbort, onConfirm}) => (
 		</div>
 		<footer className="modal-footer">
 			<div className="actions">
-				<button className="button button-delete">
-					<FormattedMessage id="subset.button_delete_subset" defaultMessage="Delete subset" />
+				<button className="button button-default" onClick={onAbort}>
+					<FormattedMessage id="subset.button_subset_cancel" defaultMessage="Cancel" />
 				</button>
-				<button className="button button-default">
-					<FormattedMessage id="subset.button_activate_subset" defaultMessage="Activate subset" />
+				<button className="button button-primary" onClick={onConfirm}>
+					<FormattedMessage id="subset.button_subset_done" defaultMessage="Done" />
 				</button>
 			</div>
 		</footer>
