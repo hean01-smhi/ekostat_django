@@ -19,12 +19,51 @@ def index(request, workspace_uuid):
 	except Exception as e:
 		return JsonResponse({"error_message": "Could not found data."},status=404)
 
-@require_POST
-def edit(request, workspace):
-	if workspace != "my_workspace_1":
-		return JsonResponse({"error_message": "Invalid workspace."},status=404)
-
+@require_GET
+def info(request, subset_uuid):
 	try:
-		return JsonResponse(json.loads(request.body.decode('utf-8')))
+		# Does not work yet
+		#return JsonResponse(ekos.request_subset_info(subset_uuid))
+		return JsonResponse({"subset_uuid": subset_uuid})
+	except Exception as e:
+		return JsonResponse({"error_message": "Could not found data."},status=404)
+
+@require_POST
+def add(request):
+	try:
+		data = json.loads(request.body.decode('utf-8'))
+		data['user_id'] = user_id
+		return JsonResponse(ekos.request_subset_add(data))
 	except ValueError as e:
 		return JsonResponse({"error_message": "Could not parse JSON."},status=400)
+	except Exception as e:
+		return JsonResponse({"error_message": "Could not add subset."},status=400)
+
+
+@require_POST
+def delete(request, subset_uuid):
+	try:
+		data = json.loads(request.body.decode('utf-8'))
+		data['subset_uuid'] = subset_uuid
+		data['user_id'] = user_id
+		# Does not work yest
+		#return JsonResponse(ekos.request_subset_delete(data))
+		return JsonResponse(data)
+	except ValueError as e:
+		return JsonResponse({"error_message": "Could not parse JSON."},status=400)
+	except Exception as e:
+		return JsonResponse({"error_message": "Could not delete subset."},status=400)
+
+@require_POST
+def edit(request, subset_uuid):
+	try:
+		data = json.loads(request.body.decode('utf-8'))
+		data['subset_uuid'] = subset_uuid
+		data['user_id'] = user_id
+		# Does not work yet
+		#return JsonResponse(ekos.request_subset_edit(data))
+		return JsonResponse(data)
+	except ValueError as e:
+		return JsonResponse({"error_message": "Could not parse JSON."},status=400)
+	except Exception as e:
+		return JsonResponse({"error_message": "Could not edit subset."},status=400)
