@@ -33,7 +33,9 @@ def add(request):
 	try:
 		data = json.loads(request.body.decode('utf-8'))
 		data['user_id'] = user_id
-		return JsonResponse(ekos.request_subset_add(data))
+		# Does not wotk yet
+		#return JsonResponse(ekos.request_subset_add(data))
+		return JsonResponse(data)
 	except ValueError as e:
 		return JsonResponse({"error_message": "Could not parse JSON."},status=400)
 	except Exception as e:

@@ -111,42 +111,72 @@ const Subset = ({item, onClick}) => (
 	</div>
 );
 
-const SubsetAdd = ({data, onAbort, onConfirm}) => (
-	<React.Fragment>
-		<header className="modal-header">
-			<h2>New subset</h2>
-			<button className="modal-close" onClick={onAbort}>&times;</button>
-		</header>
-		<div className="modal-body">
-			<div className="field">
-				<label>
-					<FormattedMessage id="subset.label_add_subset_source" defaultMessage="Source" />
-					<select>
-						{data.sources.map((item, index) => (
-							<option key={index} value={item.uuid}>{item.alias}</option>
-						))}
-					</select>
-				</label>
-			</div>
-			<div className="field">
-				<label>
-					<FormattedMessage id="subset.label_add_subset_alias" defaultMessage="Alias" />
-					<input type="text" />
-				</label>
-			</div>
-		</div>
-		<footer className="modal-footer">
-			<div className="actions">
-				<button className="button button-default" onClick={onAbort}>
-					<FormattedMessage id="subset.button_add_subset_cancel" defaultMessage="Cancel" />
-				</button>
-				<button className="button button-primary" onClick={onConfirm}>
-					<FormattedMessage id="subset.button_add_subset_save" defaultMessage="Save" />
-				</button>
-			</div>
-		</footer>
-	</React.Fragment>
-);
+class SubsetAdd extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			alias: '',
+			source: this.props.data.source
+		}
+	}
+
+	onConfirm = (event) => {
+		this.props.onConfirm(this.state);
+	};
+
+	onAbort = (event) => {
+		this.props.onAbort(this.state);
+	};
+
+	onChangeSource = (event) => {
+		this.setState({source: event.target.value});
+	};
+
+	onChangeAlias = (event) => {
+		this.setState({alias: event.target.value});
+	};
+
+	render() {
+		return (
+			<React.Fragment>
+				<header className="modal-header">
+					<h2>
+						<FormattedMessage id="subset.heading_add_subset" defaultMessage="Add subset" />
+					</h2>
+					<button className="modal-close" onClick={this.props.onAbort}>&times;</button>
+				</header>
+				<div className="modal-body">
+					<div className="field">
+						<label>
+							<FormattedMessage id="subset.label_add_subset_source" defaultMessage="Source" />
+							<select value={this.state.source} onChange={this.onChangeSource}>
+								{this.props.data.sources.map((item, index) => (
+									<option key={index} value={item.uuid}>{item.alias}</option>
+								))}
+							</select>
+						</label>
+					</div>
+					<div className="field">
+						<label>
+							<FormattedMessage id="subset.label_add_subset_alias" defaultMessage="Alias" />
+							<input type="text" value={this.state.alias} onChange={this.onChangeAlias} />
+						</label>
+					</div>
+				</div>
+				<footer className="modal-footer">
+					<div className="actions">
+						<button className="button button-default" onClick={this.onAbort}>
+							<FormattedMessage id="subset.button_add_subset_cancel" defaultMessage="Cancel" />
+						</button>
+						<button className="button button-primary" onClick={this.onConfirm}>
+							<FormattedMessage id="subset.button_add_subset_save" defaultMessage="Save" />
+						</button>
+					</div>
+				</footer>
+			</React.Fragment>
+		);
+	}
+}
 
 const SubsetEdit = ({data, onAbort, onConfirm}) => (
 	<React.Fragment>

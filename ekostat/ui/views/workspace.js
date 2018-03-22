@@ -44,7 +44,9 @@ class Workspace extends React.Component {
 	};
 
 	onModalConfirm = (data) => {
-		if (this.state.modalId === MODAL_ID_WORKSPACE_ADD) {
+		if (this.state.modalId === MODAL_ID_SUBSET_ADD) {
+			this.requestSubsetAdd(data);
+		} else if (this.state.modalId === MODAL_ID_WORKSPACE_ADD) {
 			this.requestWorkspaceAdd(data);
 		} else if (this.state.modalId === MODAL_ID_WORKSPACE_EDIT) {
 			this.requestWorkspaceEdit(data);
@@ -104,6 +106,12 @@ class Workspace extends React.Component {
 			data.availableWorkspaces = response.workspaces;
 			return {data};
 		});
+	}
+
+	async requestSubsetAdd(data) {
+		data.workspace_uuid = this.state.data.currentWorkspace.uuid;
+		const response = await Calculator.requestSubsetAdd(data);
+		this.requestSubsetList(data.workspace_uuid);
 	}
 
 	async requestSubsetList(uuid) {

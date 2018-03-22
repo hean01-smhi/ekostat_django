@@ -22,6 +22,10 @@ class CalculatorError extends Error {
  * between client and server.
  */
 class Calculator {
+	static async requestSubsetAdd(data) {
+		return this._request('POST', 'subsets/add', data);
+	}
+
 	static async requestSubsetList(uuid) {
 		return this._request('GET', `subsets/${uuid}`);
 	}
