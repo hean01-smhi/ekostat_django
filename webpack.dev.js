@@ -2,16 +2,17 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const rootPath = path.resolve(__dirname, 'ekostat/ui');
-const buildPath = path.resolve(rootPath, 'tmp');
+const srcPath = path.resolve(rootPath, 'src');
+const buildPath = path.resolve(rootPath, 'build');
 
 module.exports = {
 	entry: {
-		app: path.resolve(rootPath, 'index.js')
+		app: path.resolve(srcPath, 'index.js')
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
 			title: 'Vattenstatus',
-			template: path.resolve(rootPath, 'index.html'),
+			template: path.resolve(srcPath, 'index.html'),
 			minify: {
 				removeScriptTypeAttributes: true,
 				removeStyleLinkTypeAttributes: true

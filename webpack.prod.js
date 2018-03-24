@@ -6,18 +6,19 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const rootPath = path.resolve(__dirname, 'ekostat/ui');
-const buildPath = path.resolve(rootPath, 'dist');
-const tmpPath = path.resolve(rootPath, 'tmp');
+const srcPath = path.resolve(rootPath, 'src');
+const buildPath = path.resolve(rootPath, 'build');
+const distPath = path.resolve(rootPath, 'dist');
 
 module.exports = {
 	entry: {
-		app: path.resolve(rootPath, 'index.js')
+		app: path.resolve(srcPath, 'index.js')
 	},
 	plugins: [
-		new CleanWebpackPlugin([tmpPath, buildPath]),
+		new CleanWebpackPlugin([buildPath, distPath]),
 		new HtmlWebpackPlugin({
 			title: 'Vattenstatus',
-			template: path.resolve(rootPath, 'index.html'),
+			template: path.resolve(srcPath, 'index.html'),
 			minify: {
 				removeScriptTypeAttributes: true,
 				removeStyleLinkTypeAttributes: true
@@ -32,7 +33,7 @@ module.exports = {
 	],
 	output: {
 		filename: 'scripts/[name].[chunkhash].js',
-		path: path.resolve(buildPath, 'static'),
+		path: path.resolve(distPath, 'static'),
 		publicPath: '/static/'
 	},
 	module: {

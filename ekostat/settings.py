@@ -56,7 +56,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'ekostat', 'templates'),
-            os.path.join(BASE_DIR, 'ekostat', 'ui', 'tmp', 'templates'),
+            os.path.join(BASE_DIR, 'ekostat', 'ui', 'build', 'templates'),
             os.path.join(BASE_DIR, 'ekostat', 'ui', 'dist', 'templates')
         ],
         'APP_DIRS': True,
@@ -120,7 +120,8 @@ USE_TZ = True
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'ekostat', 'static'),
-    os.path.join(BASE_DIR, 'ekostat', 'ui', 'tmp', 'static'),
+    os.path.join(BASE_DIR, 'ekostat', 'ui', 'static'),
+    os.path.join(BASE_DIR, 'ekostat', 'ui', 'build', 'static'),
     os.path.join(BASE_DIR, 'ekostat', 'ui', 'dist', 'static')
 ]
 

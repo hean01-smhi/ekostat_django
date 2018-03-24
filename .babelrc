@@ -6,7 +6,7 @@
 			"globals": ["Error"]
 		}],
 		["react-intl", {
-			"messagesDir": "./ekostat/ui/tmp/messages/"
+			"messagesDir": "./ekostat/ui/build/messages/"
 		}]
 	]
 }
