@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="14px" width="15px" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 15 14">
+ <g fill-rule="evenodd" fill="none">
+  <g stroke="#fff" stroke-width="1.75" transform="translate(1 1)">
+   <path d="m11.113 9.4286c-0.992 1.7144-2.6547 2.5714-4.988 2.5714-3.5 0-6.125-3-6.125-6s2.625-6 6.125-6c2.3333 0 4.171 1.1429 5.512 3.4286"/>
+   <g stroke-linecap="square" transform="translate(11.255 3.2518) rotate(4) translate(-3.0004 -2.5)">
+    <path d="m4.375 3.4286v-3.4286"/>
+    <path d="m4.208 3.4443h-3.5"/>
+   </g>
+  </g>
+ </g>
+</svg>

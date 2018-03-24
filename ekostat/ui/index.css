@@ -442,17 +442,20 @@ em {
 	text-align: center;
 }
 
-.subset-edit {
+.subset header > i {
 	position: absolute;
-	top: 8px;
-	right: 5px;
-	border: none;
-	background: none;
+	top: 10px;
+	right: 10px;
 	cursor: pointer;
 }
 
-.subset-edit span {
-	display: none;
+.icon-lock {
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	width: 12px;
+	height: 14px;
+	background: url(images/icon-lock.svg) no-repeat center center;
 }
 
 .icon-edit {
@@ -471,6 +474,15 @@ em {
 	width: 14px;
 	height: 14px;
 	background: url(images/icon-settings.svg) no-repeat center center;
+}
+
+.icon-refresh {
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	width: 15px;
+	height: 14px;
+	background: url(images/icon-refresh.svg) no-repeat center center;
 }
 
 .subset .subset-description {
@@ -651,6 +663,21 @@ em {
 	padding: 20px;
 	width: 100%;
 	font-size: 14px;
+	vertical-align: bottom;
+}
+
+.subset-refresh span {
+	display: inline-block;
+	background: blue;
+	line-height: 15px;
+	padding: 1px 0 0 25px;
+	background: url(images/icon-refresh.svg) no-repeat left center;
+}
+
+.subset-refresh .icon-refresh {
+	font-size: 14px;
+	line-height: 15px;
+	background-color: red;
 }
 
 @media(min-width: 768px) {
@@ -674,7 +701,7 @@ em {
 .indicator-settings-content {
 	margin-top: 8px;
 	padding: 16px 16px;
-	min-width: 200px;
+	min-width: 240px;
 	font-size: 12px;
 	background: #f6f6f6;
 	border: 1px solid #ccc;
@@ -694,6 +721,17 @@ em {
 
 .indicator-settings-content fieldset label {
 	font-weight: normal;
+}
+
+.indicator-settings-close {
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	padding: 5px 10px;
+	font-weight: bold;
+	background: none;
+	border: none;
+	cursor: pointer;
 }
 
 
@@ -1079,19 +1117,31 @@ em {
 
 .react-dropdown-tree-select {
 	position: relative;
-	padding-top: 50px;
+	padding-top: 30px;
 	font-size: 12px;
 }
 
 .react-dropdown-tree-select .tag-list {
-	padding: 10px 0;
+	padding: 20px 0;
 }
 
 .react-dropdown-tree-select .tag-item:last-child {
 	position: absolute;
-	top: 20px;
+	top: 10px;
 	left: 0;
 	right: 0;
+}
+
+.react-dropdown-tree-select .tag-item:last-child:before {
+	position: absolute;
+	top: 18px;
+	right: 14px;
+	content: '';
+	display: block;
+	width: 6px;
+	height: 10px;
+	background: url(images/icon-dropdown.svg) no-repeat center right;
+	z-index: 1000;
 }
 
 .react-dropdown-tree-select .tag-item .search {
@@ -1139,11 +1189,13 @@ em {
 
 .react-dropdown-tree-select .dropdown-content {
 	position: absolute;
-	top: 55px;
+	top: 60px;
 	left: 0;
 	right: 0;
-	border: 1px solid #eee;
-	background: rgba(245,245,245,0.95);
+	background: #f6f6f6;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
 }
 
 .react-dropdown-tree-select .match-in-children.hide .node-label {
@@ -1171,7 +1223,7 @@ em {
 }
 
 .react-dropdown-tree-select .searchModeOn .toggle {
-	color: #ccc;
+	visibility: hidden;
 }
 
 .react-dropdown-tree-select .searchModeOn .toggle:after {

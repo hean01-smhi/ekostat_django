@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Manager, Target, Popper, Arrow} from 'react-popper';
-import {PortalWithState} from 'react-portal';
 import DropdownTreeSelect from 'react-dropdown-tree-select';
 import {FormattedMessage} from 'react-intl';
 import {Link} from './common';
+import {IndicatorSettings} from './indicator';
 
 const getSelectedItems = (items) => {
 	const result = [];
@@ -53,50 +52,11 @@ const Factors = ({item}) => (
 	</fieldset>
 );
 
-const IndicatorSettings = () => (
-	<Manager className="indicator-settings">
-		<PortalWithState closeOnOutsideClick closeOnEsc>
-			{({openPortal, closePortal, isOpen, portal}) => [
-				<Target>
-					<button className="indicator-settings-button" onClick={openPortal}>
-						<i className="icon-settings"></i>
-					</button>
-				</Target>,
-				portal(
-					<Popper placement="bottom" className="indicator-settings-content">
-						<label>
-							Water type
-							<select>
-								<option>Type 1</option>
-								<option>Type with longer name</option>
-								<option>Type 3</option>
-							</select>
-						</label>
-						<fieldset>
-							<legend>Settings group A</legend>
-							<div>
-								<label><input type="checkbox" /> {' Option 1'}</label>
-								<label><input type="checkbox" /> {' Option 2'}</label>
-							</div>
-						</fieldset>
-						<fieldset>
-							<legend>Settings group B</legend>
-							<div>
-								<label><input type="checkbox" /> {' Option 3'}</label>
-								<label><input type="checkbox" /> {' Option 4'}</label>
-							</div>
-						</fieldset>
-					</Popper>
-				)
-			]}
-		</PortalWithState>
-	</Manager>
-);
-
 const Subset = ({item, onClick}) => (
 	<div className="subset" onClick={onClick}>
 		<header className="subset-header">
 			<h2>{item.alias}</h2>
+			{item.uuid == 'default_subset' ? (<i className="icon-lock"></i>) : (<i className="icon-edit"></i>)}
 		</header>
 		<div className="subset-body">
 			<Description items={getSelectedItems(item.areas)} />

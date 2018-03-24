@@ -889,17 +889,20 @@ em {
 	text-align: center;
 }
 
-.subset-edit {
+.subset header > i {
 	position: absolute;
-	top: 8px;
-	right: 5px;
-	border: none;
-	background: none;
+	top: 10px;
+	right: 10px;
 	cursor: pointer;
 }
 
-.subset-edit span {
-	display: none;
+.icon-lock {
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	width: 12px;
+	height: 14px;
+	background: url(/static/images/6f3fb0b1350536df98be73831dec18e8.svg) no-repeat center center;
 }
 
 .icon-edit {
@@ -918,6 +921,15 @@ em {
 	width: 14px;
 	height: 14px;
 	background: url(/static/images/b43d61ddbda7eb0d3e4c783c0d537063.svg) no-repeat center center;
+}
+
+.icon-refresh {
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	width: 15px;
+	height: 14px;
+	background: url(/static/images/fe4cfbd09d9a5bddd5682990f6c9e8d6.svg) no-repeat center center;
 }
 
 .subset .subset-description {
@@ -1098,6 +1110,21 @@ em {
 	padding: 20px;
 	width: 100%;
 	font-size: 14px;
+	vertical-align: bottom;
+}
+
+.subset-refresh span {
+	display: inline-block;
+	background: blue;
+	line-height: 15px;
+	padding: 1px 0 0 25px;
+	background: url(/static/images/fe4cfbd09d9a5bddd5682990f6c9e8d6.svg) no-repeat left center;
+}
+
+.subset-refresh .icon-refresh {
+	font-size: 14px;
+	line-height: 15px;
+	background-color: red;
 }
 
 @media(min-width: 768px) {
@@ -1121,7 +1148,7 @@ em {
 .indicator-settings-content {
 	margin-top: 8px;
 	padding: 16px 16px;
-	min-width: 200px;
+	min-width: 240px;
 	font-size: 12px;
 	background: #f6f6f6;
 	border: 1px solid #ccc;
@@ -1141,6 +1168,17 @@ em {
 
 .indicator-settings-content fieldset label {
 	font-weight: normal;
+}
+
+.indicator-settings-close {
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	padding: 5px 10px;
+	font-weight: bold;
+	background: none;
+	border: none;
+	cursor: pointer;
 }
 
 
@@ -1526,19 +1564,31 @@ em {
 
 .react-dropdown-tree-select {
 	position: relative;
-	padding-top: 50px;
+	padding-top: 30px;
 	font-size: 12px;
 }
 
 .react-dropdown-tree-select .tag-list {
-	padding: 10px 0;
+	padding: 20px 0;
 }
 
 .react-dropdown-tree-select .tag-item:last-child {
 	position: absolute;
-	top: 20px;
+	top: 10px;
 	left: 0;
 	right: 0;
+}
+
+.react-dropdown-tree-select .tag-item:last-child:before {
+	position: absolute;
+	top: 18px;
+	right: 14px;
+	content: '';
+	display: block;
+	width: 6px;
+	height: 10px;
+	background: url(/static/images/5156bd99273a909ad67b5a07540bad25.svg) no-repeat center right;
+	z-index: 1000;
 }
 
 .react-dropdown-tree-select .tag-item .search {
@@ -1586,11 +1636,13 @@ em {
 
 .react-dropdown-tree-select .dropdown-content {
 	position: absolute;
-	top: 55px;
+	top: 60px;
 	left: 0;
 	right: 0;
-	border: 1px solid #eee;
-	background: rgba(245,245,245,0.95);
+	background: #f6f6f6;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
 }
 
 .react-dropdown-tree-select .match-in-children.hide .node-label {
@@ -1618,7 +1670,7 @@ em {
 }
 
 .react-dropdown-tree-select .searchModeOn .toggle {
-	color: #ccc;
+	visibility: hidden;
 }
 
 .react-dropdown-tree-select .searchModeOn .toggle:after {
