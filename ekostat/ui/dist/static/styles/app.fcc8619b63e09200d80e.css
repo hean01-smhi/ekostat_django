@@ -447,6 +447,7 @@ template {
 }
 html {
 	box-sizing: border-box;
+	-webkit-tap-highlight-color: transparent;
 }
 
 *, *::before, *::after {
@@ -1349,6 +1350,10 @@ em {
 	background: #eee;
 	color: #333;
 	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .button-primary {
@@ -1444,6 +1449,7 @@ em {
 	bottom: 0;
 	overflow: auto;
 	padding: 60px 20px;
+	-webkit-overflow-scrolling: touch;
 }
 
 .modal-close {
@@ -1557,7 +1563,7 @@ em {
 }
 
 
-
+/
 .react-dropdown-tree-select .hide:not(.match-in-children) {
 	display: none;
 }
