@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="12px" width="14px" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 14 12" xmlns:dc="http://purl.org/dc/elements/1.1/">
+ <defs>
+  <rect id="g" rx="1" height="12" width="14" y="0" x="0"/>
+  <rect id="f" y="7" x="9" height="2" width="2"/>
+  <rect id="e" y="7" x="6" height="2" width="2"/>
+  <rect id="d" y="7" x="3" height="2" width="2"/>
+  <rect id="c" y="4" x="9" height="2" width="2"/>
+  <rect id="b" y="4" x="6" height="2" width="2"/>
+  <rect id="a" y="4" x="3" height="2" width="2"/>
+ </defs>
+ <g fill-rule="evenodd" fill="none">
+  <use xlink:href="#g" fill-rule="evenodd" fill="#FFFFFF"/>
+  <rect rx="1" height="11" width="13" stroke="#979797" y=".5" x=".5"/>
+  <rect height="2" width="12" y="1" x="1" fill="#979797"/>
+  <use xlink:href="#f" fill-rule="evenodd" fill="#D8D8D8"/>
+  <rect height="1" width="1" stroke="#979797" y="7.5" x="9.5"/>
+  <use xlink:href="#e" fill-rule="evenodd" fill="#D8D8D8"/>
+  <rect height="1" width="1" stroke="#979797" y="7.5" x="6.5"/>
+  <use xlink:href="#d" fill-rule="evenodd" fill="#D8D8D8"/>
+  <rect height="1" width="1" stroke="#979797" y="7.5" x="3.5"/>
+  <use xlink:href="#c" fill-rule="evenodd" fill="#D8D8D8"/>
+  <rect height="1" width="1" stroke="#979797" y="4.5" x="9.5"/>
+  <use xlink:href="#b" fill-rule="evenodd" fill="#D8D8D8"/>
+  <rect height="1" width="1" stroke="#979797" y="4.5" x="6.5"/>
+  <use xlink:href="#a" fill-rule="evenodd" fill="#D8D8D8"/>
+  <rect height="1" width="1" stroke="#979797" y="4.5" x="3.5"/>
+ </g>
+</svg>

@@ -219,19 +219,19 @@ const WorkspaceDropdown = ({data, onClickAdd, onClickEdit}) => (
 					<Popper placement="bottom" className="workspace-menu-dropdown">
 						<ul>
 							<li>
-								<button onClick={(event) => {closePortal(); onClickAdd();}}>
+								<button onClick={(event) => {closePortal(); onClickAdd();}} className="workspace-menu-add">
 									<FormattedMessage id="workspace.button_add_workspace" defaultMessage="New" />
 								</button>
 							</li>
 							<li>
-								<button onClick={(event) => {closePortal(); onClickEdit();}}>
+								<button onClick={(event) => {closePortal(); onClickEdit();}} className="workspace-menu-edit">
 									<FormattedMessage id="workspace.button_edit_workspace" defaultMessage="Edit" />
 								</button>
 							</li>
 						</ul>
 						<ul>
 							{data.availableWorkspaces.map((item, index) => (
-								<li key={index}>
+								<li key={index} className={data.currentWorkspace.uuid == item.uuid ? 'active' : 'inactive'}>
 									<Link to={`workspaces/${item.uuid}`} onClick={closePortal}>
 										{item.alias}
 									</Link>
