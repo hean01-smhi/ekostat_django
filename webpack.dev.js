@@ -9,6 +9,7 @@ module.exports = {
 	entry: {
 		app: path.resolve(srcPath, 'index.js')
 	},
+	devtool: 'eval-source-map',
 	plugins: [
 		new HtmlWebpackPlugin({
 			title: 'Vattenstatus',
