@@ -65,7 +65,7 @@ const Subset = ({item, onClick}) => (
 		</div>
 		<footer className="subset-footer">
 			<Link to={`report/my_workspace_1/my_subset1`} className="subset-report">
-				<FormattedMessage id="subset.button_view_report" defaultMessage="View report" />
+				<FormattedMessage id="subset.button_view_report" defaultMessage="Result report" />
 			</Link>
 		</footer>
 	</div>
@@ -141,80 +141,72 @@ class SubsetAdd extends React.Component {
 const SubsetEdit = ({data, onAbort, onConfirm}) => (
 	<React.Fragment>
 		<header className="modal-header">
-			<h2>{data.alias}</h2>
+			<h1>{data.alias}</h1>
 			<button className="modal-close" onClick={onAbort}>&times;</button>
 		</header>
 		<div className="modal-body">
-			<div className="subset-assessment-units">
-				<h3>
-					<FormattedMessage id="subset.heading_status" defaultMessage="Status" />
-				</h3>
-				<div className="field-group">
-					<label>
-						<input type="radio" name="subset_status" value="editable" checked />
-						<FormattedMessage id="subset.label_subset_status_active" defaultMessage="Active" />
-					</label>
-					<label>
-						<input type="radio" name="subset_status"  />
-						<FormattedMessage id="subset.label_subset_status_inactive" defaultMessage="Inactive" />
-					</label>
-					<button className="button button-delete">
-						<FormattedMessage id="subset.button_subset_delete" defaultMessage="Delete" />
-					</button>
+			<div className="panel panel-subset-filters">
+				<header className="panel-header">
+					<h2>
+						1. <FormattedMessage id="subset.heading_select_filters" defaultMessage="Select filters" />
+					</h2>
+				</header>
+				<div className="panel-body">
+					<fieldset className="subset-assessment-areas">
+						<legend>
+							<FormattedMessage id="subset.legend_areas" defaultMessage="Areas" />
+						</legend>
+						<DropdownTreeSelect data={data.areas} keepTreeOnSearch={true} />
+					</fieldset>
+					<fieldset className="subset-assessment-periods">
+						<legend>
+							<FormattedMessage id="subset.legend_periods" defaultMessage="Periods" />
+						</legend>
+						<div className="subset-assessment-period">
+							<label className="subset-assessment-period-from">
+								<FormattedMessage id="subset.label_from_year" defaultMessage="From (year)" />
+								<input type="number" min="2001" max="2018" defaultValue="2007" />
+							</label>
+							<label className="subset-assessment-period-to">
+								<FormattedMessage id="subset.label_to_year" defaultMessage="To (year)" />
+								<input type="number" min="2001" max="2018" defaultValue="2011" />
+							</label>
+						</div>
+					</fieldset>
 				</div>
-				<h3>
-					<FormattedMessage id="subset.heading_assessment_units" defaultMessage="Assessment units" />
-				</h3>
-				<fieldset className="subset-assessment-areas">
-					<legend>
-						<FormattedMessage id="subset.legend_areas" defaultMessage="Areas" />
-					</legend>
-					<DropdownTreeSelect data={data.areas} keepTreeOnSearch={true} />
-				</fieldset>
-				<fieldset className="subset-assessment-periods">
-					<legend>
-						<FormattedMessage id="subset.legend_periods" defaultMessage="Periods" />
-					</legend>
-					<div className="subset-assessment-period">
-						<label className="subset-assessment-period-from">
-							<FormattedMessage id="subset.label_from_year" defaultMessage="From (year)" />
-							<input type="number" min="2001" max="2018" defaultValue="2007" />
-						</label>
-						<label className="subset-assessment-period-to">
-							<FormattedMessage id="subset.label_to_year" defaultMessage="To (year)" />
-							<input type="number" min="2001" max="2018" defaultValue="2011" />
-						</label>
-					</div>
-				</fieldset>
-				<div className="subset-refresh">
+				<footer className="panel-footer">
 					<button className="button button-alt">
-						<FormattedMessage id="subset.button_refresh_indicators" defaultMessage="Recalculate indicators" />
+						<FormattedMessage id="subset.button_apply_selected_filters" defaultMessage="Apply selected filters" />
 					</button>
+				</footer>
+			</div>
+			<div className="panel panel-subset-indicators">
+				<header className="panel-header">
+					<h2>
+						2. <FormattedMessage id="subset.heading_select_indicators" defaultMessage="Select and adjust settings for indicators" />
+					</h2>
+				</header>
+				<div className="panel-body">
+					<div className="subset-quality-elements">
+						<h3>
+							<FormattedMessage id="subset.heading_quality_elements" defaultMessage="Biological quality elements" />
+						</h3>
+						{data.quality_elements && data.quality_elements.map((item, index) => <Factors item={item} key={index} />)}
+					</div>
+					<div className="subset-supporting-elements">
+						<h3>
+							<FormattedMessage id="subset.heading_supporting_elements" defaultMessage="Supporting elements" />
+						</h3>
+						{data.supporting_elements && data.supporting_elements.map((item, index) => <Factors item={item} key={index} />)}
+					</div>
 				</div>
-			</div>
-			<div className="subset-quality-elements">
-				<h3>
-					<FormattedMessage id="subset.heading_quality_elements" defaultMessage="Biological quality elements" />
-				</h3>
-				{data.quality_elements && data.quality_elements.map((item, index) => <Factors item={item} key={index} />)}
-			</div>
-			<div className="subset-supporting-elements">
-				<h3>
-					<FormattedMessage id="subset.heading_supporting_elements" defaultMessage="Supporting elements" />
-				</h3>
-				{data.supporting_elements && data.supporting_elements.map((item, index) => <Factors item={item} key={index} />)}
+				<footer className="panel-footer">
+					<button className="button button-primary">
+						<FormattedMessage id="subset.button_apply_selected_indicators" defaultMessage="Apply selected indicators" />
+					</button>
+				</footer>
 			</div>
 		</div>
-		<footer className="modal-footer">
-			<div className="actions">
-				<button className="button button-default" onClick={onAbort}>
-					<FormattedMessage id="subset.button_subset_cancel" defaultMessage="Cancel" />
-				</button>
-				<button className="button button-primary" onClick={onConfirm}>
-					<FormattedMessage id="subset.button_subset_done" defaultMessage="Done" />
-				</button>
-			</div>
-		</footer>
 	</React.Fragment>
 );
 
