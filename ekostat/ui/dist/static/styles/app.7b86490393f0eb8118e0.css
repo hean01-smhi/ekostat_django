@@ -1151,7 +1151,7 @@ em {
 	padding: 16px 16px;
 	min-width: 240px;
 	font-size: 12px;
-	background: #f6f6f6;
+	background: #fff;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
@@ -1177,6 +1177,7 @@ em {
 	right: 4px;
 	padding: 5px 10px;
 	font-weight: bold;
+	font-size: 14px;
 	background: none;
 	border: none;
 	cursor: pointer;
@@ -1341,7 +1342,7 @@ em {
 }
 
 .button {
-	font-size: 14px;
+	font-size: 12px;
 	display: inline-block;
 	margin: 2px;
 	padding: 8px;
@@ -1429,7 +1430,7 @@ em {
 	text-align: center;
 	border-bottom: 1px solid #ccc;
 	z-index: 1000;
-	background: #f6f6f6;
+	background: #ff;
 	border-top-right-radius: 4px;
 	border-top-left-radius: 4px;
 }
@@ -1444,17 +1445,20 @@ em {
 	top: 60px;
 	left: 0;
 	right: 0;
-	bottom: 60px;
-	padding: 16px;
+	bottom: 70px;
+	padding: 20px;
 	overflow: auto;
 	-webkit-overflow-scrolling: touch;
+	background: #f6f6f6;
 }
 
 .modal-body .sticky-heading {
+	position: -webkit-sticky;
+	position: -moz-sticky;
 	position: sticky;
-	top: -16px;
-	margin: 0 -16px 16px;
-	background: #eee;
+	top: -20px;
+	margin: 0 -20px 20px;
+	background: #e2e2e2;
 	font-size: 12px;
 	font-weight: bold;
 	text-transform: uppercase;
@@ -1464,7 +1468,11 @@ em {
 
 .modal-body h2 {
 	margin: 0 0 32px;
-	font-size: 18px;
+	font-size: 12px;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #7dc23a;
+	text-align: center;
 }
 
 .modal-footer {
@@ -1472,20 +1480,23 @@ em {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	height: 60px;
-	padding: 10px 8px;
+	height: 70px;
+	padding: 10px 8px 20px;
 	border-top: 1px solid #ccc;
 	z-index: 1000;
-	background: #f6f6f6;
+	background: #fff;
 	border-bottom-right-radius: 4px;
 	border-bottom-left-radius: 4px;
 }
 
 .modal-footer .button-next {
+	text-transform: uppercase;
 	float: right;
+	font-weight: bold;
 }
 
-.modal-footer .button.prev {
+.modal-footer .button-prev {
+	text-transform: uppercase;
 	float: left;
 }
 
@@ -1503,6 +1514,23 @@ em {
 
 .ReactModal__Body--open {
 	overflow: hidden;
+}
+
+.ReactModal__Overlay {
+	transition: opacity 0.3s ease-in-out;
+	opacity: 0;
+}
+
+.ReactModal__Overlay--after-open {
+	opacity: 1;
+}
+
+.ReactModal__Content {
+	transition: transform 0.3s ease-out;
+	transform: translate(0, 80%);
+}
+.ReactModal__Content--after-open {
+	transform: translate(0, 0);
 }
 
 @media(min-width: 576px) {
