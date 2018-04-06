@@ -4,9 +4,6 @@
     ["babel-plugin-transform-class-properties"],
     ["babel-plugin-transform-builtin-extend", {
       "globals": ["Error"]
-    }],
-    ["react-intl", {
-      "messagesDir": "./ekostat/ui/build/messages/"
     }]
   ]
 }

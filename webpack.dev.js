@@ -1,15 +1,21 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const rootPath = path.resolve(__dirname, 'ekostat/ui');
-const srcPath = path.resolve(rootPath, 'src');
-const buildPath = path.resolve(rootPath, 'build');
+const srcPath = path.resolve(__dirname, 'ekostat/ui');
 
 module.exports = {
   entry: {
     app: path.resolve(srcPath, 'index.js')
   },
   devtool: 'eval-source-map',
+  devServer: {
+    contentBase: false,
+    historyApiFallback: true,
+    proxy: {
+      '/api': 'http://127.0.0.1:8000',
+      '/static': 'http://127.0.0.1:8000'
+    }
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Vattenstatus',
@@ -18,13 +24,12 @@ module.exports = {
         removeScriptTypeAttributes: true,
         removeStyleLinkTypeAttributes: true
       },
-      filename: '../templates/app.html'
+      filename: 'index.html'
     })
   ],
   output: {
-    filename: 'scripts/[name].js',
-    path: path.resolve(buildPath, 'static'),
-    publicPath: '/static/'
+    filename: '[name].js',
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -42,8 +47,7 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
-            name: '[name].[ext]',
-            outputPath: 'images/'
+            name: '[name].[ext]'
           }
         }
       }

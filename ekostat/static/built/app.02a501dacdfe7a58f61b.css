@@ -741,7 +741,7 @@ em {
 .workspace-menu button span {
   display: block;
   padding-right: 15px;
-  background: url(/static/images/5156bd99273a909ad67b5a07540bad25.svg) no-repeat center right;
+  background: url(/static/built/5156bd99273a909ad67b5a07540bad25.svg) no-repeat center right;
 }
 
 .workspace-menu-dropdown {
@@ -801,15 +801,15 @@ em {
 }
 
 .workspace-menu-dropdown .workspace-menu-add {
-  background-image: url(/static/images/86f0ec1cae8e9df1d495fefbcc4cdfee.svg);;
+  background-image: url(/static/built/86f0ec1cae8e9df1d495fefbcc4cdfee.svg);;
 }
 
 .workspace-menu-dropdown .workspace-menu-edit {
-  background-image: url(/static/images/5617002bcd74086be5d58c36af797f38.svg);
+  background-image: url(/static/built/5617002bcd74086be5d58c36af797f38.svg);
 }
 
 .workspace-menu-dropdown a {
-  background-image: url(/static/images/9ea47790557e5a6e6bb91fb65507d927.svg);
+  background-image: url(/static/built/9ea47790557e5a6e6bb91fb65507d927.svg);
 }
 
 .workspace-menu a,
@@ -953,7 +953,7 @@ em {
   display: inline-block;
   width: 12px;
   height: 14px;
-  background: url(/static/images/6f3fb0b1350536df98be73831dec18e8.svg) no-repeat center center;
+  background: url(/static/built/6f3fb0b1350536df98be73831dec18e8.svg) no-repeat center center;
 }
 
 .icon-edit {
@@ -962,7 +962,7 @@ em {
   display: inline-block;
   width: 12px;
   height: 13px;
-  background: url(/static/images/5617002bcd74086be5d58c36af797f38.svg) no-repeat center center;
+  background: url(/static/built/5617002bcd74086be5d58c36af797f38.svg) no-repeat center center;
 }
 
 .icon-settings {
@@ -971,7 +971,7 @@ em {
   display: inline-block;
   width: 14px;
   height: 14px;
-  background: url(/static/images/b43d61ddbda7eb0d3e4c783c0d537063.svg) no-repeat center center;
+  background: url(/static/built/b43d61ddbda7eb0d3e4c783c0d537063.svg) no-repeat center center;
 }
 
 .icon-refresh {
@@ -980,7 +980,7 @@ em {
   display: inline-block;
   width: 15px;
   height: 14px;
-  background: url(/static/images/fe4cfbd09d9a5bddd5682990f6c9e8d6.svg) no-repeat center center;
+  background: url(/static/built/fe4cfbd09d9a5bddd5682990f6c9e8d6.svg) no-repeat center center;
 }
 
 .subset .subset-description {
@@ -1684,7 +1684,7 @@ em {
   content: '';
   display: block;
   width: 30px;
-  background: url(/static/images/5156bd99273a909ad67b5a07540bad25.svg) no-repeat center center;
+  background: url(/static/built/5156bd99273a909ad67b5a07540bad25.svg) no-repeat center center;
   z-index: 1000;
   cursor: pointer;
 }

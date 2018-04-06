@@ -5,17 +5,15 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const rootPath = path.resolve(__dirname, 'ekostat/ui');
-const srcPath = path.resolve(rootPath, 'src');
-const buildPath = path.resolve(rootPath, 'build');
-const distPath = path.resolve(rootPath, 'dist');
+const srcPath = path.resolve(__dirname, 'ekostat/ui');
+const distPath = path.resolve(__dirname, 'ekostat/static/built');
 
 module.exports = {
   entry: {
     app: path.resolve(srcPath, 'index.js')
   },
   plugins: [
-    new CleanWebpackPlugin([buildPath, distPath]),
+    new CleanWebpackPlugin([distPath]),
     new HtmlWebpackPlugin({
       title: 'Vattenstatus',
       template: path.resolve(srcPath, 'index.html'),
@@ -23,18 +21,18 @@ module.exports = {
         removeScriptTypeAttributes: true,
         removeStyleLinkTypeAttributes: true
       },
-      filename: '../templates/app.html'
+      filename: '../../templates/index.html'
     }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
     new UglifyJSPlugin(),
-    new ExtractTextPlugin('styles/[name].[chunkhash].css')
+    new ExtractTextPlugin('[name].[chunkhash].css')
   ],
   output: {
-    filename: 'scripts/[name].[chunkhash].js',
-    path: path.resolve(distPath, 'static'),
-    publicPath: '/static/'
+    filename: '[name].[chunkhash].js',
+    path: path.resolve(distPath),
+    publicPath: '/static/built/'
   },
   module: {
     rules: [
@@ -53,10 +51,7 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|gif)$/,
         use: {
-          loader: 'file-loader',
-          options: {
-            outputPath: 'images/'
-          }
+          loader: 'file-loader'
         }
       }
     ]

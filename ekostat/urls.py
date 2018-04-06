@@ -22,5 +22,5 @@ urlpatterns = [
     path('api/subsets/', include('subsets.urls')),
     path('api/reports/', include('reports.urls')),
     path('api/workspaces/', include('workspaces.urls')),
-    re_path('^.*/?$', TemplateView.as_view(template_name='app.html'))
+    re_path('^.*/?$', TemplateView.as_view(template_name='index.html'))
 ]
