@@ -12,65 +12,65 @@ import {defaultLocale, locales, translation} from '../lang';
 import logo from '../images/logo.svg';
 
 const Navigation = withRouter(({match}) => (
-	<nav className="navigation" role="navigation">
-		<Link to={`${match.url}`} className="logo" title="Vattenstatus">
-			<img src={logo} />
-		</Link>
-		<ul>
-			<li>
-				<NavLink to={`${match.url}about`}>
-					<FormattedMessage id="navigation.item_about" defaultMessage="About" />
-				</NavLink>
-			</li>
-			<li>
-				<NavLink to={`${match.url}workspaces/default_workspace`}>
-					<FormattedMessage id="navigation.item_workspace" defaultMessage="Workspace" />
-				</NavLink>
-			</li>
-			<li>
-				<NavLink to={`${match.url}preferences`}>
-					<FormattedMessage id="navigation.item_preferences" defaultMessage="Preferences" />
-				</NavLink>
-			</li>
-		</ul>
-	</nav>
+  <nav className="navigation" role="navigation">
+    <Link to={`${match.url}`} className="logo" title="Vattenstatus">
+      <img src={logo} />
+    </Link>
+    <ul>
+      <li>
+        <NavLink to={`${match.url}about`}>
+          <FormattedMessage id="navigation.item_about" defaultMessage="About" />
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to={`${match.url}workspaces/default_workspace`}>
+          <FormattedMessage id="navigation.item_workspace" defaultMessage="Workspace" />
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to={`${match.url}preferences`}>
+          <FormattedMessage id="navigation.item_preferences" defaultMessage="Preferences" />
+        </NavLink>
+      </li>
+    </ul>
+  </nav>
 ));
 
 const Main = withRouter(({match}) => (
-	<main className="main" role="main">
-		<Switch>
-			<Route path={`${match.url}about`} component={About} />
-			<Route path={`${match.url}workspaces/:workspace_uuid`} component={Workspace} />
-			<Route exact path={`${match.url}report/:workspace`} component={Report} />
-			<Route exact path={`${match.url}report/:workspace/:subset`} component={Report} />
-			<Route path={`${match.url}preferences`} component={Preferences} />
-			<Redirect exact from={match.url} to={`${match.url}workspaces/default_workspace`} />
-			<Route component={NotFound} />
-		</Switch>
-	</main>
+  <main className="main" role="main">
+    <Switch>
+      <Route path={`${match.url}about`} component={About} />
+      <Route path={`${match.url}workspaces/:workspace_uuid`} component={Workspace} />
+      <Route exact path={`${match.url}report/:workspace`} component={Report} />
+      <Route exact path={`${match.url}report/:workspace/:subset`} component={Report} />
+      <Route path={`${match.url}preferences`} component={Preferences} />
+      <Redirect exact from={match.url} to={`${match.url}workspaces/default_workspace`} />
+      <Route component={NotFound} />
+    </Switch>
+  </main>
 ));
 
 const Footer = () => (
-	<footer className="footer" role="contentinfo">
-		<DemoDialog />
-	</footer>
+  <footer className="footer" role="contentinfo">
+    <DemoDialog />
+  </footer>
 );
 
 const App = () => (
-	<Router>
-		<Switch>
-			<Route strict path={`/:lang(${locales.join('|')})/`} render={({match}) => (
-				<IntlProvider locale={match.params.lang} messages={translation(match.params.lang)}>
-					<React.Fragment>
-						<Navigation />
-						<Main />
-						<Footer />
-					</React.Fragment>
-				</IntlProvider>
-			)} />
-			<Redirect to={`/${defaultLocale}/`} />
-		</Switch>
-	</Router>
+  <Router>
+    <Switch>
+      <Route strict path={`/:lang(${locales.join('|')})/`} render={({match}) => (
+        <IntlProvider locale={match.params.lang} messages={translation(match.params.lang)}>
+          <React.Fragment>
+            <Navigation />
+            <Main />
+            <Footer />
+          </React.Fragment>
+        </IntlProvider>
+      )} />
+      <Redirect to={`/${defaultLocale}/`} />
+    </Switch>
+  </Router>
 );
 
 

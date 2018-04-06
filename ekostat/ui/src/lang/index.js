@@ -9,8 +9,8 @@ import en_US from './en-US.json';
 addLocaleData([...en, ...sv]);
 
 const languages = {
-	'en-US': en_US,
-	'sv-SE': sv_SE
+  'en-US': en_US,
+  'sv-SE': sv_SE
 };
 
 const locales = Object.keys(languages);

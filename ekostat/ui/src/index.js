@@ -6,6 +6,6 @@ import 'normalize.css';
 import './index.css';
 
 ReactDOM.render(
-	<App />,
-	document.querySelector('#root')
+  <App />,
+  document.querySelector('#root')
 );
