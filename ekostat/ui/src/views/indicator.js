@@ -22,7 +22,7 @@ const IndicatorSettings = () => (
 					</button>
 				</Target>,
 				portal(
-					<Popper placement="bottom" className="indicator-settings-content">
+					<Popper placement="right-start" className="indicator-settings-content">
 						<button className="indicator-settings-close" onClick={closePortal}>
 							&times;
 						</button>

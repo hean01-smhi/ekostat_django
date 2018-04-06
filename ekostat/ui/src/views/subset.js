@@ -138,77 +138,92 @@ class SubsetAdd extends React.Component {
 	}
 }
 
-const SubsetEdit = ({data, onAbort, onConfirm}) => (
-	<React.Fragment>
-		<header className="modal-header">
-			<h1>{data.alias}</h1>
-			<button className="modal-close" onClick={onAbort}>&times;</button>
-		</header>
-		<div className="modal-body">
-			<div className="panel panel-subset-filters">
-				<header className="panel-header">
-					<h2>
-						1. <FormattedMessage id="subset.heading_select_filters" defaultMessage="Select filters" />
-					</h2>
-				</header>
-				<div className="panel-body">
-					<fieldset className="subset-assessment-areas">
-						<legend>
-							<FormattedMessage id="subset.legend_areas" defaultMessage="Areas" />
-						</legend>
-						<DropdownTreeSelect data={data.areas} keepTreeOnSearch={true} />
-					</fieldset>
-					<fieldset className="subset-assessment-periods">
-						<legend>
-							<FormattedMessage id="subset.legend_periods" defaultMessage="Periods" />
-						</legend>
-						<div className="subset-assessment-period">
-							<label className="subset-assessment-period-from">
-								<FormattedMessage id="subset.label_from_year" defaultMessage="From (year)" />
-								<input type="number" min="2001" max="2018" defaultValue="2007" />
-							</label>
-							<label className="subset-assessment-period-to">
-								<FormattedMessage id="subset.label_to_year" defaultMessage="To (year)" />
-								<input type="number" min="2001" max="2018" defaultValue="2011" />
-							</label>
-						</div>
-					</fieldset>
-				</div>
-				<footer className="panel-footer">
-					<button className="button button-alt">
-						<FormattedMessage id="subset.button_apply_selected_filters" defaultMessage="Apply selected filters" />
+
+class SubsetEdit extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {step: 0};
+	}
+
+	render() {
+		return (
+			<React.Fragment>
+				<header className="modal-header">
+					<h1>{this.props.data.alias}</h1>
+					<button className="modal-close" onClick={this.props.onAbort}>
+						&times;
 					</button>
-				</footer>
-			</div>
-			<div className="panel panel-subset-indicators">
-				<header className="panel-header">
-					<h2>
-						2. <FormattedMessage id="subset.heading_select_indicators" defaultMessage="Select and adjust settings for indicators" />
-					</h2>
 				</header>
-				<div className="panel-body">
-					<div className="subset-quality-elements">
-						<h3>
-							<FormattedMessage id="subset.heading_quality_elements" defaultMessage="Biological quality elements" />
-						</h3>
-						{data.quality_elements && data.quality_elements.map((item, index) => <Factors item={item} key={index} />)}
-					</div>
-					<div className="subset-supporting-elements">
-						<h3>
-							<FormattedMessage id="subset.heading_supporting_elements" defaultMessage="Supporting elements" />
-						</h3>
-						{data.supporting_elements && data.supporting_elements.map((item, index) => <Factors item={item} key={index} />)}
-					</div>
+				<div className="modal-body">
+					{this.state.step == 0 ? (
+						<React.Fragment>
+							<h2>
+								1.{' '}
+								<FormattedMessage id="subset.heading_select_filters" defaultMessage="Select filters" />
+							</h2>
+							<h3 className="sticky-heading">
+								<FormattedMessage id="subset.heading_period" defaultMessage="Period" />
+							</h3>
+							<div className="subset-assessment-period">
+								<label className="subset-assessment-period-from">
+									<FormattedMessage id="subset.label_from_year" defaultMessage="From (year)" />
+									<input type="number" min="2001" max="2018" defaultValue="2007" />
+								</label>
+								<label className="subset-assessment-period-to">
+									<FormattedMessage id="subset.label_to_year" defaultMessage="To (year)" />
+									<input type="number" min="2001" max="2018" defaultValue="2011" />
+								</label>
+							</div>
+							<h3 className="sticky-heading">
+								<FormattedMessage id="subset.heading_areas" defaultMessage="Areas" />
+							</h3>
+							<DropdownTreeSelect data={this.props.data.areas} keepTreeOnSearch={true} showDropdown={true} placeholderText="Search..." />
+						</React.Fragment>
+					) : (
+						<React.Fragment>
+							<h2>
+								2.{' '}
+								<FormattedMessage id="subset.heading_select_indicators" defaultMessage="Select and adjust settings for indicators" />
+							</h2>
+							<h3 className="sticky-heading">
+								<FormattedMessage id="subset.heading_quality_elements" defaultMessage="Biological quality elements" />
+							</h3>
+							<div className="subset-quality-elements">
+								{this.props.data.quality_elements.map((item, index) => <Factors item={item} key={index} />)}
+							</div>
+							<h3 className="sticky-heading">
+								<FormattedMessage id="subset.heading_supporting_elements" defaultMessage="Supporting elements" />
+							</h3>
+							<div className="subset-supporting-elements">
+								{this.props.data.supporting_elements.map((item, index) => <Factors item={item} key={index} />)}
+							</div>
+						</React.Fragment>
+					)}
 				</div>
-				<footer className="panel-footer">
-					<button className="button button-primary">
-						<FormattedMessage id="subset.button_apply_selected_indicators" defaultMessage="Apply selected indicators" />
-					</button>
+				<footer className="modal-footer">
+					{this.state.step == 0 ? (
+						<React.Fragment>
+							<button className="button button-next" onClick={() => this.setState({step: 1})}>
+								<FormattedMessage id="subset.button_select_indicators" defaultMessage="Select and adjust settings for indicators" />
+								{' '}&rarr;
+							</button>
+						</React.Fragment>
+					) : (
+						<React.Fragment>
+							<button className="button button-prev" onClick={() => this.setState({step: 0})}>
+								&larr;{' '}
+								<FormattedMessage id="subset.button_select_filters" defaultMessage="Select filters" />
+							</button>
+							<button className="button button-next" onClick={this.props.onConfirm}>
+								Done
+							</button>
+						</React.Fragment>
+					)}
 				</footer>
-			</div>
-		</div>
-	</React.Fragment>
-);
+			</React.Fragment>
+		);
+	}
+}
 
 
 export {Subset, SubsetAdd, SubsetEdit}
