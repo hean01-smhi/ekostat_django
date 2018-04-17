@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {withRouter, matchPath} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
+import {UserLogin} from './user';
 
 const Preferences = withRouter(({history}) => {
   const match = matchPath(history.location.pathname, {path: '/:lang/'});
@@ -23,15 +24,7 @@ const Preferences = withRouter(({history}) => {
         <legend>
           <FormattedMessage id="preferences.legend_user_account" defaultMessage="Account" />
         </legend>
-        <div>
-          <input type="text" placeholder="Username" />
-        </div>
-        <div>
-          <input type="password" placeholder="Password" />
-        </div>
-        <div>
-          <input type="button" value="Log in" />
-        </div>
+        <UserLogin />
       </fieldset>
     </section>
   );

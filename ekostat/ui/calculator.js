@@ -1,3 +1,5 @@
+import jwtdecode from 'jwt-decode';
+
 /**
  * Custom Error Class for handling of errors defined on by the calculator.
  *
@@ -22,6 +24,37 @@ class CalculatorError extends Error {
  * between client and server.
  */
 class Calculator {
+
+  static getUser() {
+    const authToken = localStorage.getItem('auth_token');
+
+    if (authToken) {
+      return jwtdecode(authToken);
+    }
+
+    return false;
+  }
+
+  static async setUser(username, password) {
+    if (username && username.length && password && password.length) {
+      try {
+        const response = await this.requestUserAuthentication(username, password);
+        localStorage.setItem('auth_token', response.token);
+      } catch(error) {
+        localStorage.removeItem('auth_token');
+        throw error;
+      }
+    } else {
+      localStorage.removeItem('auth_token');
+    }
+
+    return this.getUser();
+  }
+
+  static async requestUserAuthentication(username, password) {
+    return this._request('POST', 'users/authenticate', {username, password});
+  }
+
   static async requestSubsetAdd(data) {
     return this._request('POST', 'subsets/add', data);
   }
@@ -42,12 +75,24 @@ class Calculator {
     return this._request('GET', 'workspaces/');
   }
 
+  static _requestHeaders() {
+    const headers = {
+      'Content-Type': 'application/json;charset=UTF8'
+    };
+
+    const authToken = localStorage.getItem('auth_token');
+
+    if (authToken) {
+      headers['Authorization'] = `Bearer ${authToken}`;
+    }
+
+    return headers;
+  }
+
   static async _request(method, path, data = {}) {
     const response = await fetch(`/api/${path}`, {
       credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF8'
-      },
+      headers: this._requestHeaders(),
       body: method === 'POST' ? JSON.stringify(data) : undefined,
       method
     });
