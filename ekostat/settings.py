@@ -129,3 +129,12 @@ STATICFILES_DIRS = [
 STATIC_URL = '/static/'
 
 STATIC_ROOT = '/mnt/persist/www/django/static'
+
+
+# Calculator
+
+EKOSTAT_CALCULATOR_ROOT_DIR = os.path.join(BASE_DIR, 'lib', 'ekostat_calculator')
+
+EKOSTAT_CALCULATOR_WORKSPACES_DIR = os.path.join(EKOSTAT_CALCULATOR_ROOT_DIR, 'workspaces')
+
+EKOSTAT_CALCULATOR_RESOURCE_DIR = os.path.join(EKOSTAT_CALCULATOR_ROOT_DIR, 'resources')
