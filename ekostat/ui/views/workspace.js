@@ -79,19 +79,19 @@ class Workspace extends React.Component {
     this.openModal(MODAL_ID_SUBSET_EDIT);
   };
 
-  reRoute(uuid) {
+  reRoute(workspace_uuid) {
     const {history} = this.props;
     const mp = matchPath(history.location.pathname, '/:lang/');
-    history.push(`/${mp.params.lang}/workspaces/${uuid}`);
+    history.push(`/${mp.params.lang}/workspaces/${workspace_uuid}`);
   }
 
   async requestWorkspaceAdd(data) {
     const response = await Calculator.requestWorkspaceAdd(data);
-    this.reRoute(response.uuid);
+    this.reRoute(response.workspace_uuid);
   }
 
   async requestWorkspaceEdit(data) {
-    const response = await Calculator.requestWorkspaceEdit(data.uuid, data);
+    const response = await Calculator.requestWorkspaceEdit(data.workspace_uuid, data);
     this.setState((prevState) => {
       const {data} = prevState;
       data.currentWorkspace = response;
@@ -109,14 +109,14 @@ class Workspace extends React.Component {
   }
 
   async requestSubsetAdd(data) {
-    data.workspace_uuid = this.state.data.currentWorkspace.uuid;
+    data.workspace_uuid = this.state.data.currentWorkspace.workspace_uuid;
     const response = await Calculator.requestSubsetAdd(data);
     this.requestSubsetList(data.workspace_uuid);
   }
 
-  async requestSubsetList(uuid) {
+  async requestSubsetList(subset_uuid) {
     this.setState({isLoading: true});
-    const response = await Calculator.requestSubsetList(uuid)
+    const response = await Calculator.requestSubsetList(subset_uuid)
     this.setState((prevState) => {
       const {data} = prevState;
       data.availableSubsets = response.subsets;
@@ -231,8 +231,8 @@ const WorkspaceDropdown = ({data, onClickAdd, onClickEdit}) => (
             </ul>
             <ul>
               {data.availableWorkspaces.map((item, index) => (
-                <li key={index} className={data.currentWorkspace.uuid == item.uuid ? 'active' : 'inactive'}>
-                  <Link to={`workspaces/${item.uuid}`} onClick={closePortal}>
+                <li key={index} className={data.currentWorkspace.workspace_uuid == item.workspace_uuid ? 'active' : 'inactive'}>
+                  <Link to={`workspaces/${item.workspace_uuid}`} onClick={closePortal}>
                     {item.alias}
                   </Link>
                 </li>
@@ -285,7 +285,7 @@ class WorkspaceAdd extends React.Component {
               <FormattedMessage id="workspace.label_add_workspace_source" defaultMessage="Source" />
               <select value={this.state.source} onChange={this.onChangeSource}>
                 {this.props.data.sources.map((source, index) => (
-                  <option key={index} value={source.uuid}>{source.alias}</option>
+                  <option key={index} value={source.workspace_uuid}>{source.alias}</option>
                 ))}
               </select>
             </label>
@@ -317,7 +317,7 @@ class WorkspaceEdit extends React.Component {
     super(props);
     this.state = {
       alias: this.props.data.alias,
-      uuid: this.props.data.uuid,
+      workspace_uuid: this.props.data.workspace_uuid,
       status: this.props.data.status
     };
   }

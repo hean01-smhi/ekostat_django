@@ -56,7 +56,7 @@ const Subset = ({item, onClick}) => (
   <div className="subset" onClick={onClick}>
     <header className="subset-header">
       <h2>{item.alias}</h2>
-      {item.uuid == 'default_subset' ? (<i className="icon-lock"></i>) : (<i className="icon-edit"></i>)}
+      {item.subset_uuid == 'default_subset' ? (<i className="icon-lock"></i>) : (<i className="icon-edit"></i>)}
     </header>
     <div className="subset-body">
       <Description items={getSelectedItems(item.areas)} />
@@ -111,7 +111,7 @@ class SubsetAdd extends React.Component {
               <FormattedMessage id="subset.label_add_subset_source" defaultMessage="Source" />
               <select value={this.state.source} onChange={this.onChangeSource}>
                 {this.props.data.sources.map((item, index) => (
-                  <option key={index} value={item.uuid}>{item.alias}</option>
+                  <option key={index} value={item.subset_uuid}>{item.alias}</option>
                 ))}
               </select>
             </label>

@@ -52,4 +52,4 @@ class Account():
 
 class GuestAccount():
     def get_user_id(self):
-        return 'default'
+        return 'guest'

@@ -6,25 +6,24 @@ from django.views.decorators.http import require_GET, require_POST
 
 from accounts.decorators import require_account
 
-from lib.ekostat_calculator.event_handler import EventHandler
-
-
-ekos = EventHandler(settings.EKOSTAT_CALCULATOR_ROOT_DIR)
-
+from ekostat.api_calculator import get_calculator
 
 
 @require_GET
 @require_account
 def index(request):
     user_id = request.account.get_user_id()
+    ekos = get_calculator(user_id)
     return JsonResponse(ekos.request_workspace_list({'user_id': user_id}))
 
 @require_POST
 @require_account
 def add(request):
+    user_id = request.account.get_user_id()
+    ekos = get_calculator(user_id)
     try:
         data = json.loads(request.body.decode('utf-8'))
-        data['user_id'] = request.account.get_user_id()
+        data['user_id'] = user_id
         return JsonResponse(ekos.request_workspace_add(data))
     except ValueError as e:
         return JsonResponse({"error_message": "Could not parse JSON."},status=400)
@@ -34,10 +33,12 @@ def add(request):
 @require_POST
 @require_account
 def edit(request, workspace_uuid):
+    user_id = request.account.get_user_id()
+    ekos = get_calculator(user_id)
     try:
         data = json.loads(request.body.decode('utf-8'))
         data['uuid'] = workspace_uuid
-        data['user_id'] = request.account.get_user_id()
+        data['user_id'] = user_id
         return JsonResponse(ekos.request_workspace_edit(data))
     except ValueError as e:
         return JsonResponse({"error_message": "Could not parse JSON."},status=400)
@@ -47,6 +48,8 @@ def edit(request, workspace_uuid):
 @require_POST
 @require_account
 def delete(request, workspace_uuid):
+    user_id = request.account.get_user_id()
+    ekos = get_calculator(user_id)
     try:
         return JsonResponse(ekos.request_workspace_delete({'uuid': workspace_uuid}))
     except Exception as e:

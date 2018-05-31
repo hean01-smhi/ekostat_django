@@ -6,16 +6,15 @@ from django.views.decorators.http import require_GET, require_POST
 
 from accounts.decorators import require_account
 
-from lib.ekostat_calculator.event_handler import EventHandler
+from ekostat.api_calculator import get_calculator
 
-
-ekos = EventHandler(settings.EKOSTAT_CALCULATOR_ROOT_DIR)
 
 @require_GET
 @require_account
 def index(request, workspace_uuid):
     try:
         user_id = request.account.get_user_id()
+        ekos = get_calculator(user_id)
         return JsonResponse(ekos.request_subset_list({"user_id": user_id, "workspace_uuid": workspace_uuid}))
     except Exception as e:
         return JsonResponse({"error_message": "Could not found data."},status=404)
