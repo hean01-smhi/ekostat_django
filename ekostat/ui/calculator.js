@@ -52,7 +52,7 @@ class Calculator {
   }
 
   static async requestUserAuthentication(username, password) {
-    return this._request('POST', 'users/authenticate', {username, password});
+    return this._request('POST', 'accounts/authenticate', {username, password});
   }
 
   static async requestSubsetAdd(data) {

@@ -72,7 +72,7 @@ class UserLogin extends React.Component {
         {user != false ? (
           <div className="user-logout">
             <p>
-              Logged in as <b>{user.username}</b>.
+              Logged in as <b>{user.email}</b>.
               <button className="button" onClick={this.handleLogoutClick}>
                 <FormattedMessage id="user.button_logout" defaultMessage="Log out?" />
               </button>
