@@ -29,7 +29,7 @@ This document describes the API that Django exposes to enable client application
 
 Communcation is over HTTP and data is transfered as JSON.
 
-Parameters for `GET` request should be specified in the query string of the URL, and parameters for `POST`, `PUT` and `DELETE` requests should be encoded as JSON in the request body.
+Parameters for `GET` requests should be specified in the query string of the URL, and parameters for `PATCH`, `POST`, `PUT` and `DELETE` requests should be encoded as JSON in the request body.
 
 
 ## Overview
@@ -38,20 +38,20 @@ The table shown below is an overview of available API calls with corresponding i
 
 Description | Verb | Path | Core reference
 ----------- | ---- | ---- | -------------------
-[List workspaces](#list-workspaces) | `GET` | `/api/v1/workspaces` | [`request_workspace_list`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_workspace_list%22)
-[Create a workspace](#create-a-workspace) | `POST` | `/api/v1/workspaces` | [`request_workspace_add`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_workspace_add%22)
-[Edit a workspace](#edit-a-workspace) | `POST` | `/api/v1/workspaces/<workspace_uuid>` | [`request_workspace_edit`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_workspace_edit%22)
-[Delete a workspace](#delete-a-workspace) | `DELETE` | `/api/v1/workspaces/<workspace_uuid>`| [`request_workspace_delete`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_workspace_delete%22)
-[List data sources](#list-data-sources) | `GET` | `/api/v1/workspaces/<workspace_uuid>/sources` | [`request_workspace_data_sources_list`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_workspace_data_sources_list%22)
-[Edit data sources](#edit-data-sources) | `POST` | `/api/v1/workspaces/<workspace_uuid>/sources` | [`request_workspace_data_sources_edit`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_workspace_data_sources_edit%22)
-[List subsets](#list-subsets) | `GET` | `/api/v1/workspaces/<workspace_uuid>/subsets` | [`request_subset_list`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_subset_list%22)
-[Create a subset](#create-a-subset) | `POST` | `/api/v1/workspaces/<workspace_uuid>/subsets` | [`request_subset_add`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_subset_add%22)
-[Edit a subset](#edit-a-subset) | `POST` | `/api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>` | [`request_subset_edit`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_subset_edit%22)
-[Delete a subset](#delete-a-subset) | `DELETE` | `/api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>` | [`request_subset_delete`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_subset_delete%22)
-[List data filters](#list-data-filters) | `GET` | `/api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/filters` | [`request_subset_get_data_filter`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_subset_get_data_filter%22)
-[Edit data filters](#edit-data-filters) | `POST` | `/api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/filters` | ?
-[List indicators](#list-indicators) | `GET` | `/api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/indicators` | [`request_subset_get_indicator_settings`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_subset_get_indicator_settings%22)
-[Edit indicators](#edit-indicators) | `POST` | `/api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/indicators` | ?
+[List workspaces](#list-workspaces) | `GET` | `/api/v1/workspaces/` | [`request_workspace_list`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_workspace_list%22)
+[Create a workspace](#create-a-workspace) | `POST` | `/api/v1/workspaces/` | [`request_workspace_add`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_workspace_add%22)
+[Edit a workspace](#edit-a-workspace) | `PATCH` | `/api/v1/workspaces/<workspace_uuid>/` | [`request_workspace_edit`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_workspace_edit%22)
+[Delete a workspace](#delete-a-workspace) | `DELETE` | `/api/v1/workspaces/<workspace_uuid>/`| [`request_workspace_delete`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_workspace_delete%22)
+[List data sources](#list-data-sources) | `GET` | `/api/v1/workspaces/<workspace_uuid>/sources/` | [`request_workspace_data_sources_list`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_workspace_data_sources_list%22)
+[Edit data sources](#edit-data-sources) | `PATCH` | `/api/v1/workspaces/<workspace_uuid>/sources/` | [`request_workspace_data_sources_edit`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_workspace_data_sources_edit%22)
+[Load default data](#load-default-data) | `POST` | `/api/v1/workspaces/<workspace_uuid>/default_data/` | [`request_workspace_load_default_data`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_workspace_load_default_data%22)
+[List subsets](#list-subsets) | `GET` | `/api/v1/workspaces/<workspace_uuid>/subsets/` | [`request_subset_list`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_subset_list%22)
+[Create a subset](#create-a-subset) | `POST` | `/api/v1/workspaces/<workspace_uuid>/subsets/` | [`request_subset_add`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_subset_add%22)
+[Edit a subset](#edit-a-subset) | `PATCH` | `/api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/` | [`request_subset_edit`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_subset_edit%22)
+[Delete a subset](#delete-a-subset) | `DELETE` | `/api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/` | [`request_subset_delete`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_subset_delete%22)
+[List data filters](#list-data-filters) | `GET` | `/api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/filters/` | [`request_subset_get_data_filter`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_subset_get_data_filter%22)
+[Create indicators](#create-indicators) | `POST` | `/api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/indicators/` | [`request_subset_get_indicator_settings`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_subset_get_indicator_settings%22)
+[Edit indicators](#edit-indicators) | `PATCH` | `/api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/indicators/` | [`request_subset_set_indicator_settings`](https://github.com/ekostat/ekostat_calculator/search?q=%22def+request_subset_set_indicator_settings%22)
 
 
 ## Authentication
@@ -73,7 +73,7 @@ curl -H "Authorization: Bearer <json_web_token>" http://127.0.0.1:8000/api/v1/wo
 Obtaining a JSON Web Token requires user credentials.
 
 ```
-POST /api/v1/authenticate
+POST /api/v1/authenticate/
 ```
 
 #### Parameters
@@ -107,7 +107,7 @@ Status code: 200 OK
 Renewal of a JSON Web Token requires an existing JSON Web Token that has not already been expired. If given token is valid, a new token with longer expiration time will be returned.
 
 ```
-POST /api/v1/reauthenticate
+POST /api/v1/reauthenticate/
 ```
 
 #### Parameters
@@ -150,7 +150,7 @@ In case the calculator for an authenticated user is already busy, working on a p
 List workspaces that belongs to the authenticated user. If the user is not authenticated, then list public readonly workspaces.
 
 ```
-GET /api/v1/workspaces
+GET /api/v1/workspaces/
 ```
 
 ### Response
@@ -180,7 +180,7 @@ Status code: 200 OK
 Creating a workspace requires the user to be authenticated.
 
 ```
-POST /api/v1/workspaces
+POST /api/v1/workspaces/
 ```
 
 ### Parameters
@@ -188,14 +188,14 @@ POST /api/v1/workspaces
 Name | Type | Description
 ---- | ---- | -----------
 `alias` | `string` | Alias name for the new workspace.
-`source` | `string` | UUID of the workspace to be used as source for the new workspace.
+`workspace_uuid` | `string` | UUID of the workspace to be used as source for the new workspace.
 
 #### Example
 
 ```
 {
   "alias": "My Workspace",
-  "source": "default_workspace"
+  "workspace_uuid": "default_workspace"
 }
 ```
 
@@ -217,7 +217,7 @@ Status code: 201 Created
 Editing a workspace requires the user to be authenticated, and also to be the owner of the workspace.
 
 ```
-POST /api/v1/workspaces/<workspace_uuid>
+PATCH /api/v1/workspaces/<workspace_uuid>/
 ```
 
 ### Parameters
@@ -253,7 +253,7 @@ Deleting a workspace requires the user to be authenticated, and also to be the o
 
 
 ```
-DELETE /api/v1/workspaces/<workspace_uuid>
+DELETE /api/v1/workspaces/<workspace_uuid>/
 ```
 
 ### Response
@@ -268,7 +268,7 @@ Status code: 204 No Content
 List data sources available for given workspace. If the workspace is private, then the user must be authenticated and owner of the workspace.
 
 ```
-GET /api/v1/workspaces/<workspace_uuid>/sources
+GET /api/v1/workspaces/<workspace_uuid>/sources/
 ```
 
 ### Response
@@ -349,7 +349,7 @@ Status code: 200 OK
 Editing data sources for a given workspace requires the user to be authenticated, and also to be the owner of the workspace.
 
 ```
-POST /api/v1/workspaces/<workspace_uuid>/sources
+PATCH /api/v1/workspaces/<workspace_uuid>/sources/
 ```
 
 ### Parameters
@@ -508,12 +508,29 @@ Status code: 200 OK
 ```
 
 
+## Load default data
+
+Loading default data for a workspace requires the user to authenticated, and to be the owner of given workspace.
+
+```
+POST /api/v1/workspaces/<workspace_uuid>/default_data/
+```
+
+### Response
+
+```
+Status code: 200 OK
+
+?
+```
+
+
 ## List subsets
 
 List subsets for a given workspace. If the workspace is private, then the user must be authenticated and owner of the workspace.
 
 ```
-GET /api/v1/workspaces/<workspace_uuid>/subsets
+GET /api/v1/workspaces/<workspace_uuid>/subsets/
 ```
 
 ### Response
@@ -550,15 +567,15 @@ Status code: 200 OK
 Creating a subset in a given workspace requires the user to be authenticated, and also to be the owner of the worskpace.
 
 ```
-POST /api/v1/workspaces/<workspace_uuid>/subsets
+POST /api/v1/workspaces/<workspace_uuid>/subsets/
 ```
 
 ### Parameters
 
 Name | Type | Description
 ---- | ---- | -----------
-`subset_uuid` | `string` | UUID for the subset to be used as source for the new subset.
 `alias` | `string` | Alias name for the new subset.
+`subset_uuid` | `string` | UUID for the subset to be used as source for the new subset.
 
 #### Example
 
@@ -588,7 +605,7 @@ Status code: 201 Created
 Editing a subset requires the user to be authenticated, and to be the owner of given workspace and subset.
 
 ```
-POST /api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>
+PATCH /api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/
 ```
 
 ### Parameters
@@ -624,7 +641,7 @@ Status code: 200 OK
 Deleting a subset requires the user to be authenticated, and to be the owner of given workspace and subset.
 
 ```
-DELETE /api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>
+DELETE /api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/
 ```
 
 ### Response
@@ -633,12 +650,13 @@ DELETE /api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>
 Status code: 204 No Content
 ```
 
+
 ## List data filters
 
 List available data filters for given subset. If the subset is private, then the user must be authenticated and owner of given workspace and subset.
 
 ```
-GET /api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/filters
+GET /api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/filters/
 ```
 
 ### Response
@@ -646,45 +664,541 @@ GET /api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/filters
 ```
 Status code: 200 OK
 
-?
+{
+  "subset": {
+    "alias": "My Subset",
+    "active": true,
+    "subset_uuid": "a2115009-55ea-49ef-8c1e-50872de3a87e",
+    "status": "editable",
+    "time": {
+      "year_interval": [2013, 2019]
+    },
+    "areas": [
+      {
+        "label": "SE1",
+        "children": [
+          {
+            "label": "20 - Norra Kvarkens inre kustvatten",
+            "children": [
+              {
+                "label": "\u00d6refj\u00e4rden",
+                "active": false,
+                "type": "water_body",
+                "value": "SE633000-195000",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE633000-195000"
+              },
+              {
+                "label": "Mj\u00f6lefj\u00e4rden",
+                "active": false,
+                "type": "water_body",
+                "value": "SE633710-200500",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE633710-200500"
+              }
+            ],
+            "active": false,
+            "type": "type_area",
+            "value": "20",
+            "status": "selectable"
+          },
+          {
+            "label": "21 - Norra Kvarkens yttre kustvatten",
+            "children": [
+              {
+                "label": "S n Kvarkens kustvatten",
+                "active": false,
+                "type": "water_body",
+                "value": "SE633550-200700",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE633550-200700"
+              },
+              {
+                "label": "N n Kvarkens kustvatten",
+                "active": false,
+                "type": "water_body",
+                "value": "SE635300-205251",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE635300-205251"
+              }
+            ],
+            "active": false,
+            "type": "type_area",
+            "value": "21",
+            "status": "selectable"
+          }
+        ]
+      },
+      {
+        "label": "SE2",
+        "children": [
+          {
+            "label": "16 - S\u00f6dra Bottenhavet, inre kustvatten",
+            "children": [
+              {
+                "label": "Ortalaviken",
+                "active": false,
+                "type": "water_body",
+                "value": "SE600565-184600",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE600565-184600"
+              },
+              {
+                "label": "Edeboviken",
+                "active": false,
+                "type": "water_body",
+                "value": "SE600740-183460",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE600740-183460"
+              }
+            ],
+            "active": false,
+            "type": "type_area",
+            "value": "16",
+            "status": "selectable"
+          },
+          {
+            "label": "17 - S\u00f6dra Bottenhavet, yttre kustvatten",
+            "children": [
+              {
+                "label": "V\u00e4dd\u00f6 kustvatten",
+                "active": false,
+                "type": "water_body",
+                "value": "SE595730-185850",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE595730-185850"
+              },
+              {
+                "label": "\u00d6sthammars kustvatten",
+                "active": false,
+                "type": "water_body",
+                "value": "SE601020-185050",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE601020-185050"
+              }
+            ],
+            "active": false,
+            "type": "type_area",
+            "value": "17",
+            "status": "selectable"
+          }
+        ]
+      }
+    ]
+  },
+  "workspace_uuid": "2e88c176-504a-4823-983b-c9f1cfee00e0",
+  "workspace": {
+    "workspace_uuid": "2e88c176-504a-4823-983b-c9f1cfee00e0",
+    "status": "editable",
+    "alias": "My Workspace"
+  }
+}
 ```
 
 
-## Edit data filters
+## Create indicators
 
-Editing data filters requires the user to be authenticated, and to be the owner of given workspace and subset.
+Creating indicator settings requires the user to be authenticated, and to be the owner of given workspace and subset.
 
 ```
-POST /api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/filters
+POST /api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/indicators/
 ```
 
 ### Parameters
 
-?
+Name | Type | Description
+---- | ---- | -----------
+`subset` | `object` | Information about the subset in the same format as received in [listing filters](#list-data-filters).
+`workspace_uuid` | `string` | ?
+`workspace` | `object` | ?
+
+#### Example
+
+```
+{
+  "subset": {
+    "alias": "My Subset",
+    "active": true,
+    "subset_uuid": "a2115009-55ea-49ef-8c1e-50872de3a87e",
+    "status": "editable",
+    "time": {
+      "year_interval": [2011, 2017]
+    },
+    "areas": [
+      {
+        "label": "SE1",
+        "children": [
+          {
+            "label": "20 - Norra Kvarkens inre kustvatten",
+            "children": [
+              {
+                "label": "\u00d6refj\u00e4rden",
+                "active": false,
+                "type": "water_body",
+                "value": "SE633000-195000",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE633000-195000"
+              },
+              {
+                "label": "Mj\u00f6lefj\u00e4rden",
+                "active": true,
+                "type": "water_body",
+                "value": "SE633710-200500",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE633710-200500"
+              }
+            ],
+            "active": true,
+            "type": "type_area",
+            "value": "20",
+            "status": "selectable"
+          },
+          {
+            "label": "21 - Norra Kvarkens yttre kustvatten",
+            "children": [
+              {
+                "label": "S n Kvarkens kustvatten",
+                "active": false,
+                "type": "water_body",
+                "value": "SE633550-200700",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE633550-200700"
+              },
+              {
+                "label": "N n Kvarkens kustvatten",
+                "active": false,
+                "type": "water_body",
+                "value": "SE635300-205251",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE635300-205251"
+              }
+            ],
+            "active": false,
+            "type": "type_area",
+            "value": "21",
+            "status": "selectable"
+          }
+        ]
+      },
+      {
+        "label": "SE2",
+        "children": [
+          {
+            "label": "16 - S\u00f6dra Bottenhavet, inre kustvatten",
+            "children": [
+              {
+                "label": "Ortalaviken",
+                "active": false,
+                "type": "water_body",
+                "value": "SE600565-184600",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE600565-184600"
+              },
+              {
+                "label": "Edeboviken",
+                "active": false,
+                "type": "water_body",
+                "value": "SE600740-183460",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE600740-183460"
+              }
+            ],
+            "active": false,
+            "type": "type_area",
+            "value": "16",
+            "status": "selectable"
+          },
+          {
+            "label": "17 - S\u00f6dra Bottenhavet, yttre kustvatten",
+            "children": [
+              {
+                "label": "V\u00e4dd\u00f6 kustvatten",
+                "active": false,
+                "type": "water_body",
+                "value": "SE595730-185850",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE595730-185850"
+              },
+              {
+                "label": "\u00d6sthammars kustvatten",
+                "active": false,
+                "type": "water_body",
+                "value": "SE601020-185050",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE601020-185050"
+              }
+            ],
+            "active": false,
+            "type": "type_area",
+            "value": "17",
+            "status": "selectable"
+          }
+        ]
+      }
+    ]
+  },
+  "workspace_uuid": "2e88c176-504a-4823-983b-c9f1cfee00e0",
+  "workspace": {
+    "workspace_uuid": "2e88c176-504a-4823-983b-c9f1cfee00e0",
+    "status": "editable",
+    "alias": "My Workspace"
+  }
+}
+```
+
 
 ### Response
 
 ```
-Status code: 200 OK
+Status code: 201 Created
 
-?
-```
-
-
-## List indicators
-
-List available indicator and settings for given subset. If the subset is private, then the user must be authenticated and owner of given workspace and subset.
-
-```
-GET /api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/indicators
-```
-
-### Response
-
-```
-Status code: 200 OK
-
-?
+{
+  "subset": {
+    "alias": "My Subset",
+    "active": true,
+    "subset_uuid": "a2115009-55ea-49ef-8c1e-50872de3a87e",
+    "status": "editable",
+    "time": {
+      "year_interval": [2011, 2017]
+    },
+    "areas": [
+      {
+        "label": "SE1",
+        "children": [
+          {
+            "label": "20 - Norra Kvarkens inre kustvatten",
+            "children": [
+              {
+                "label": "\u00d6refj\u00e4rden",
+                "active": false,
+                "type": "water_body",
+                "value": "SE633000-195000",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE633000-195000"
+              },
+              {
+                "label": "Mj\u00f6lefj\u00e4rden",
+                "active": true,
+                "type": "water_body",
+                "value": "SE633710-200500",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE633710-200500"
+              }
+            ],
+            "active": true,
+            "type": "type_area",
+            "value": "20",
+            "status": "selectable"
+          },
+          {
+            "label": "21 - Norra Kvarkens yttre kustvatten",
+            "children": [
+              {
+                "label": "S n Kvarkens kustvatten",
+                "active": false,
+                "type": "water_body",
+                "value": "SE633550-200700",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE633550-200700"
+              },
+              {
+                "label": "N n Kvarkens kustvatten",
+                "active": false,
+                "type": "water_body",
+                "value": "SE635300-205251",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE635300-205251"
+              }
+            ],
+            "active": false,
+            "type": "type_area",
+            "value": "21",
+            "status": "selectable"
+          }
+        ]
+      },
+      {
+        "label": "SE2",
+        "children": [
+          {
+            "label": "16 - S\u00f6dra Bottenhavet, inre kustvatten",
+            "children": [
+              {
+                "label": "Ortalaviken",
+                "active": false,
+                "type": "water_body",
+                "value": "SE600565-184600",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE600565-184600"
+              },
+              {
+                "label": "Edeboviken",
+                "active": false,
+                "type": "water_body",
+                "value": "SE600740-183460",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE600740-183460"
+              }
+            ],
+            "active": false,
+            "type": "type_area",
+            "value": "16",
+            "status": "selectable"
+          },
+          {
+            "label": "17 - S\u00f6dra Bottenhavet, yttre kustvatten",
+            "children": [
+              {
+                "label": "V\u00e4dd\u00f6 kustvatten",
+                "active": false,
+                "type": "water_body",
+                "value": "SE595730-185850",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE595730-185850"
+              },
+              {
+                "label": "\u00d6sthammars kustvatten",
+                "active": false,
+                "type": "water_body",
+                "value": "SE601020-185050",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE601020-185050"
+              }
+            ],
+            "active": false,
+            "type": "type_area",
+            "value": "17",
+            "status": "selectable"
+          }
+        ]
+      }
+    ]
+  },
+  "supporting_elements": [
+    {
+      "label": "secchi depth",
+      "children": [
+        {
+          "settings": [],
+          "label": "Secchi ",
+          "status": "not selectable",
+          "selected": false,
+          "value": "secchi"
+        }
+      ]
+    },
+    {
+      "label": "nutrients",
+      "children": [
+        {
+          "settings": [],
+          "label": "DIN winter",
+          "status": "not selectable",
+          "selected": false,
+          "value": "din_winter"
+        },
+        {
+          "settings": [],
+          "label": "DIP winter",
+          "status": "not selectable",
+          "selected": false,
+          "value": "dip_winter"
+        },
+        {
+          "settings": [],
+          "label": "Ntot summer",
+          "status": "not selectable",
+          "selected": false,
+          "value": "ntot_summer"
+        },
+        {
+          "settings": [],
+          "label": "Ntot winter",
+          "status": "not selectable",
+          "selected": false,
+          "value": "ntot_winter"
+        },
+        {
+          "settings": [],
+          "label": "Ptot summer",
+          "status": "not selectable",
+          "selected": false,
+          "value": "ptot_summer"
+        },
+        {
+          "settings": [],
+          "label": "Ptot winter",
+          "status": "not selectable",
+          "selected": false,
+          "value": "ptot_winter"
+        }
+      ]
+    },
+    {
+      "label": "oxygen balance",
+      "children": [
+        {
+          "settings": [],
+          "label": "oxygen",
+          "status": "not selectable",
+          "selected": false,
+          "value": "oxygen"
+        }
+      ]
+    }
+  ],
+  "quality_elements": [
+    {
+      "label": "bottom fauna",
+      "children": [
+        {
+          "settings": [],
+          "label": "BQI",
+          "status": "not selectable",
+          "selected": false,
+          "value": "bqi"
+        }
+      ]
+    },
+    {
+      "label": "macroalgae and macrophytes",
+      "children": [
+        {
+          "settings": [],
+          "label": "MSMDI",
+          "status": "not selectable",
+          "selected": false,
+          "value": "msmdi"
+        }
+      ]
+    },
+    {
+      "label": "phytoplankton",
+      "children": [
+        {
+          "settings": [],
+          "label": "Biovolume",
+          "status": "not selectable",
+          "selected": false,
+          "value": "biov"
+        },
+        {
+          "settings": [],
+          "label": "Chlorophyll",
+          "status": "not selectable",
+          "selected": false,
+          "value": "chl"
+        }
+      ]
+    }
+  ],
+  "workspace_uuid": "2e88c176-504a-4823-983b-c9f1cfee00e0",
+  "workspace": {
+    "workspace_uuid": "2e88c176-504a-4823-983b-c9f1cfee00e0",
+    "status": "editable",
+    "alias": "My Workspace"
+  }
+}
 ```
 
 
@@ -693,17 +1207,544 @@ Status code: 200 OK
 Editing indicators and settings requires the user to be authenticated, and to be the owner of given workspace and subset.
 
 ```
-POST /api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/indicators
+PATCH /api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/indicators/
 ```
 
 ### Parameters
 
-?
+Name | Type | Description
+`subset` | `object` | Information about the subset in the same format as received in [creating indicators](#create-indicators).
+`supporting_elements` | `array` | An array of supporting element objects.
+`quality_elements` | `array` | An Array of quality element objects.
+
+#### Example
+
+```
+{
+  "subset": {
+    "alias": "My Subset",
+    "active": true,
+    "subset_uuid": "a2115009-55ea-49ef-8c1e-50872de3a87e",
+    "status": "editable",
+    "time": {
+      "year_interval": [2011, 2017]
+    },
+    "areas": [
+      {
+        "label": "SE1",
+        "children": [
+          {
+            "label": "20 - Norra Kvarkens inre kustvatten",
+            "children": [
+              {
+                "label": "\u00d6refj\u00e4rden",
+                "active": false,
+                "type": "water_body",
+                "value": "SE633000-195000",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE633000-195000"
+              },
+              {
+                "label": "Mj\u00f6lefj\u00e4rden",
+                "active": true,
+                "type": "water_body",
+                "value": "SE633710-200500",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE633710-200500"
+              }
+            ],
+            "active": true,
+            "type": "type_area",
+            "value": "20",
+            "status": "selectable"
+          },
+          {
+            "label": "21 - Norra Kvarkens yttre kustvatten",
+            "children": [
+              {
+                "label": "S n Kvarkens kustvatten",
+                "active": false,
+                "type": "water_body",
+                "value": "SE633550-200700",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE633550-200700"
+              },
+              {
+                "label": "N n Kvarkens kustvatten",
+                "active": false,
+                "type": "water_body",
+                "value": "SE635300-205251",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE635300-205251"
+              }
+            ],
+            "active": false,
+            "type": "type_area",
+            "value": "21",
+            "status": "selectable"
+          }
+        ]
+      },
+      {
+        "label": "SE2",
+        "children": [
+          {
+            "label": "16 - S\u00f6dra Bottenhavet, inre kustvatten",
+            "children": [
+              {
+                "label": "Ortalaviken",
+                "active": false,
+                "type": "water_body",
+                "value": "SE600565-184600",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE600565-184600"
+              },
+              {
+                "label": "Edeboviken",
+                "active": false,
+                "type": "water_body",
+                "value": "SE600740-183460",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE600740-183460"
+              }
+            ],
+            "active": false,
+            "type": "type_area",
+            "value": "16",
+            "status": "selectable"
+          },
+          {
+            "label": "17 - S\u00f6dra Bottenhavet, yttre kustvatten",
+            "children": [
+              {
+                "label": "V\u00e4dd\u00f6 kustvatten",
+                "active": false,
+                "type": "water_body",
+                "value": "SE595730-185850",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE595730-185850"
+              },
+              {
+                "label": "\u00d6sthammars kustvatten",
+                "active": false,
+                "type": "water_body",
+                "value": "SE601020-185050",
+                "status": "selectable",
+                "url": " http://www.viss.lansstyrelsen.se/waters.aspx?waterEUID=SE601020-185050"
+              }
+            ],
+            "active": false,
+            "type": "type_area",
+            "value": "17",
+            "status": "selectable"
+          }
+        ]
+      }
+    ]
+  },
+  "supporting_elements": [
+    {
+      "label": "secchi depth",
+      "children": [
+        {
+          "settings": [],
+          "label": "Secchi ",
+          "status": "not selectable",
+          "selected": false,
+          "value": "secchi"
+        }
+      ]
+    },
+    {
+      "label": "nutrients",
+      "children": [
+        {
+          "settings": [],
+          "label": "DIN winter",
+          "status": "not selectable",
+          "selected": true,
+          "value": "din_winter"
+        },
+        {
+          "settings": [],
+          "label": "DIP winter",
+          "status": "not selectable",
+          "selected": false,
+          "value": "dip_winter"
+        },
+        {
+          "settings": [],
+          "label": "Ntot summer",
+          "status": "not selectable",
+          "selected": false,
+          "value": "ntot_summer"
+        },
+        {
+          "settings": [],
+          "label": "Ntot winter",
+          "status": "not selectable",
+          "selected": false,
+          "value": "ntot_winter"
+        },
+        {
+          "settings": [],
+          "label": "Ptot summer",
+          "status": "not selectable",
+          "selected": false,
+          "value": "ptot_summer"
+        },
+        {
+          "settings": [],
+          "label": "Ptot winter",
+          "status": "not selectable",
+          "selected": false,
+          "value": "ptot_winter"
+        }
+      ]
+    },
+    {
+      "label": "oxygen balance",
+      "children": [
+        {
+          "settings": [],
+          "label": "oxygen",
+          "status": "not selectable",
+          "selected": true,
+          "value": "oxygen"
+        }
+      ]
+    }
+  ],
+  "quality_elements": [
+    {
+      "label": "bottom fauna",
+      "children": [
+        {
+          "settings": [],
+          "label": "BQI",
+          "status": "not selectable",
+          "selected": false,
+          "value": "bqi"
+        }
+      ]
+    },
+    {
+      "label": "macroalgae and macrophytes",
+      "children": [
+        {
+          "settings": [],
+          "label": "MSMDI",
+          "status": "not selectable",
+          "selected": false,
+          "value": "msmdi"
+        }
+      ]
+    },
+    {
+      "label": "phytoplankton",
+      "children": [
+        {
+          "settings": [],
+          "label": "Biovolume",
+          "status": "not selectable",
+          "selected": false,
+          "value": "biov"
+        },
+        {
+          "settings": [],
+          "label": "Chlorophyll",
+          "status": "not selectable",
+          "selected": false,
+          "value": "chl"
+        }
+      ]
+    }
+  ],
+  "workspace_uuid": "2e88c176-504a-4823-983b-c9f1cfee00e0",
+  "workspace": {
+    "workspace_uuid": "2e88c176-504a-4823-983b-c9f1cfee00e0",
+    "status": "editable",
+    "alias": "My Workspace"
+  }
+}
+```
+
 
 ### Response
 
 ```
 Status code: 200 OK
 
-?
+{
+  "supporting_elements": [
+    {
+      "label": "secchi depth",
+      "children": [
+        {
+          "label": "Secchi ",
+          "status": "selectable",
+          "selected": false,
+          "value": "secchi",
+          "settings": [
+            {
+              "label": "7 - Sk\u00e5nes kustvatten",
+              "area_type": "type_area",
+              "value": "7",
+              "children": [
+                {
+                  "label": "MIN_NR_YEARS",
+                  "value": "MIN_NR_YEARS",
+                  "children": 3,
+                  "status": "editable"
+                },
+                {
+                  "label": "Month interval",
+                  "value": "MONTH_LIST",
+                  "children": [6, 8],
+                  "status": "editable"
+                }
+              ]
+            },
+            {
+              "label": "5 - S\u00f6dra Halland och norra \u00d6resunds kustvatten",
+              "area_type": "type_area",
+              "value": "5",
+              "children": [
+                {
+                  "label": "MIN_NR_YEARS",
+                  "value": "MIN_NR_YEARS",
+                  "children": 3,
+                  "status": "editable"
+                },
+                {
+                  "label": "Month interval",
+                  "value": "MONTH_LIST",
+                  "children": [6, 8],
+                  "status": "editable"
+                }
+              ]
+            },
+          ]
+        }
+      ]
+    },
+    {
+      "label": "nutrients",
+      "children": [
+        {
+          "label": "DIN winter",
+          "status": "selectable",
+          "selected": true,
+          "value": "din_winter",
+          "settings": [
+            {
+              "label": "7 - Sk\u00e5nes kustvatten",
+              "area_type": "type_area",
+              "value": "7",
+              "children": [
+                {
+                  "label": "MIN_NR_YEARS",
+                  "value": "MIN_NR_YEARS",
+                  "children": 3,
+                  "status": "editable"
+                },
+                {
+                  "label": "Month interval",
+                  "value": "MONTH_LIST",
+                  "children": [12, 2],
+                  "status": "editable"
+                },
+                {
+                  "label": "Depth interval ",
+                  "value": "DEPH_INTERVAL",
+                  "children": [0, 10],
+                  "status": "editable"
+                }
+              ]
+            },
+            {
+              "label": "5 - S\u00f6dra Halland och norra \u00d6resunds kustvatten",
+              "area_type": "type_area",
+              "value": "5",
+              "children": [
+                {
+                  "label": "MIN_NR_YEARS",
+                  "value": "MIN_NR_YEARS",
+                  "children": 3,
+                  "status": "editable"
+                },
+                {
+                  "label": "Month interval",
+                  "value": "MONTH_LIST",
+                  "children": [12, 3],
+                  "status": "editable"
+                },
+                {
+                  "label": "Depth interval ",
+                  "value": "DEPH_INTERVAL",
+                  "children": [0, 10],
+                  "status": "editable"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "DIP winter",
+          "status": "selectable",
+          "selected": false,
+          "value": "dip_winter",
+          "settings": [
+            {
+              "label": "7 - Sk\u00e5nes kustvatten",
+              "area_type": "type_area",
+              "value": "7",
+              "children": [
+                {
+                  "label": "MIN_NR_YEARS",
+                  "value": "MIN_NR_YEARS",
+                  "children": 3,
+                  "status": "editable"
+                },
+                {
+                  "label": "Month interval",
+                  "value": "MONTH_LIST",
+                  "children": [12, 2],
+                  "status": "editable"
+                },
+                {
+                  "label": "Depth interval ",
+                  "value": "DEPH_INTERVAL",
+                  "children": [0, 10],
+                  "status": "editable"
+                }
+              ]
+            },
+            {
+              "label": "5 - S\u00f6dra Halland och norra \u00d6resunds kustvatten",
+              "area_type": "type_area",
+              "value": "5",
+              "children": [
+                {
+                  "label": "MIN_NR_YEARS",
+                  "value": "MIN_NR_YEARS",
+                  "children": 3,
+                  "status": "editable"
+                },
+                {
+                  "label": "Month interval",
+                  "value": "MONTH_LIST",
+                  "children": [12, 3],
+                  "status": "editable"
+                },
+                {
+                  "label": "Depth interval ",
+                  "value": "DEPH_INTERVAL",
+                  "children": [0, 10],
+                  "status": "editable"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "oxygen balance",
+      "children": [
+        {
+          "label": "oxygen",
+          "status": "selectable",
+          "selected": true,
+          "value": "oxygen",
+          "settings": [
+            {
+              "label": "7 - Sk\u00e5nes kustvatten",
+              "area_type": "type_area",
+              "value": "7",
+              "children": [
+                {
+                  "label": "MIN_NR_YEARS",
+                  "value": "MIN_NR_YEARS",
+                  "children": 3,
+                  "status": "editable"
+                },
+                {
+                  "label": "BOTTOM_WATER",
+                  "value": "BOTTOM_WATER",
+                  "children": 10,
+                  "status": "editable"
+                }
+              ]
+            },
+            {
+              "label": "5 - S\u00f6dra Halland och norra \u00d6resunds kustvatten",
+              "area_type": "type_area",
+              "value": "5",
+              "children": [
+                {
+                  "label": "MIN_NR_YEARS",
+                  "value": "MIN_NR_YEARS",
+                  "children": 3,
+                  "status": "editable"
+                },
+                {
+                  "label": "BOTTOM_WATER",
+                  "value": "BOTTOM_WATER",
+                  "children": 10,
+                  "status": "editable"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "quality_elements": [
+    {
+      "label": "bottom fauna",
+      "children": [
+        {
+          "settings": [],
+          "label": "BQI",
+          "status": "not selectable",
+          "selected": false,
+          "value": "bqi"
+        }
+      ]
+    },
+    {
+      "label": "macroalgae and macrophytes",
+      "children": [
+        {
+          "settings": [],
+          "label": "MSMDI",
+          "status": "not selectable",
+          "selected": false,
+          "value": "msmdi"
+        }
+      ]
+    },
+    {
+      "label": "phytoplankton",
+      "children": [
+        {
+          "settings": [],
+          "label": "Biovolume",
+          "status": "not selectable",
+          "selected": false,
+          "value": "biov"
+        },
+        {
+          "settings": [],
+          "label": "Chlorophyll",
+          "status": "not selectable",
+          "selected": false,
+          "value": "chl"
+        }
+      ]
+    }
+  ]
+}
 ```
