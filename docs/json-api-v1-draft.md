@@ -65,7 +65,7 @@ Authorization: Bearer <json_web_token>
 For example (using curl):
 
 ```
-curl -H "Authorization: Bearer <json_web_token>" http://127.0.0.1:8000/api/v1/workspaces
+curl -H "Authorization: Bearer <json_web_token>" http://127.0.0.1:8000/api/v1/workspaces/
 ```
 
 ### Obtaining a token
@@ -1213,6 +1213,7 @@ PATCH /api/v1/workspaces/<workspace_uuid>/subsets/<subset_uuid>/indicators/
 ### Parameters
 
 Name | Type | Description
+---- | ---- | -----------
 `subset` | `object` | Information about the subset in the same format as received in [creating indicators](#create-indicators).
 `supporting_elements` | `array` | An array of supporting element objects.
 `quality_elements` | `array` | An Array of quality element objects.
